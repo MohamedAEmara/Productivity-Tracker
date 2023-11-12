@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './config/.env' });
 
 
-const isUserName = (username) => {
+const isUserName = function(username) {
     const validLetters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
 
     let n = username.length;
@@ -20,9 +20,18 @@ const isUserName = (username) => {
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
+        unique: [true, 'this username is taken'],
         required: [true, 'userName cannot be empty.'],
         validate: {
-            validator: isUserName(val),
+            validator: function(val) {
+                const validLetters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
+                let n = val.length;
+                for(let i=0; i<n; i++) 
+                    if(!validLetters.includes(val[i])) 
+                        return false;
+                return true;
+            },
+            // validator: isUserName(val),
             message: 'username can include only english letters, underscore, and numbers.'
         },
         minlength: [5, 'username cannot be less than 5 characters'],
@@ -65,17 +74,17 @@ const userSchema = new mongoose.Schema({
 
 
 
-userSchema.pre('save', async (next) => {
+userSchema.pre('save', async function (next) {
     if(!this.isModified('password')) 
         return;
 
-    this.password = await bcrypt.hash(this.password, process.env.HASH_LENGTH);
+    this.password = await bcrypt.hash(this.password, parseInt(process.env.HASH_LENGTH));
     this.confirmPassword = undefined;
 })
 
 
 
-userSchema.pre(/^find/, async (next) => {
+userSchema.pre(/^find/, async function (next) {
     this.select('+password');
 })
 

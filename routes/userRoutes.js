@@ -1,20 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
-const { getSignupPage, getLoginPage, loginUser, signupUser } = require('../controllers/userController');
-const { isVerified } = require('../controllers/authController');
+// const { getSignupPage, loginUser, signupUser } = require('../controllers/userController');
+const { loginUser, signupUser } = require('../controllers/userController');
 
 
 
 router
     .route('/auth/signup')
-    .get(getSignupPage)
+    // .get(getSignupPage)
     .post(signupUser);
 
 router
     .route('/auth/login')
-    .get(getLoginPage)
-    .post(isVerified, loginUser);
+    .get(loginUser);
 
 
 
