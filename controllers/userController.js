@@ -3,6 +3,7 @@ const emailValidator = require('email-validator');
 const bcrypt = require('bcryptjs');
 
 const { createAndSendToken } = require('./authController');
+const { createAndSendVerificationEmail } = require("../utils/sendVerification");
 
 exports.signupUser = async (req, res) => {
     try {
@@ -16,6 +17,7 @@ exports.signupUser = async (req, res) => {
         };
         await User.create(newUser);
         console.log('CREATED......');
+        createAndSendVerificationEmail(newUser.email);
         res.send('ok, created successfully');
     } catch (err) {
         console.log(err);
