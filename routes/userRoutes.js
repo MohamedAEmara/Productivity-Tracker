@@ -6,6 +6,11 @@ const { loginUser, signupUser } = require('../controllers/userController');
 const { verifyToken } = require('../controllers/authController');
 
 
+router.get('/signup', (req, res) => {
+    res.render('signup');
+})
+
+
 // router.get('/new/:token', verifyToken);
 router.route('/new/:token').get(verifyToken);
 

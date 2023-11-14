@@ -3,9 +3,15 @@ const app = express();
 const dotenv = require('dotenv');
 dotenv.config({ path: './config/.env' });
 const cookieParser = require('cookie-parser');
-
+const ejs = require('ejs');
 app.use(express.json());
 app.use(cookieParser());
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// app.use('/public', express.static(path.join(`${__dirname}/public`, 'static')));
+app.set('view engine', 'ejs');
+
 
 const connectDB = require('./db/connectDB');
 
