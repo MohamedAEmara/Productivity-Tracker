@@ -18,7 +18,8 @@ exports.signupUser = async (req, res) => {
         await User.create(newUser);
         console.log('CREATED......');
         createAndSendVerificationEmail(newUser.email);
-        res.send('ok, created successfully');
+        // res.send('ok, created successfully');
+        res.render('new');
     } catch (err) {
         console.log(err);
         res.send('err');

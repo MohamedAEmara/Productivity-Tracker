@@ -72,7 +72,7 @@
     </style>
 </head>
 <body>
-    <form action="/submit" method="post">
+    <form action="/users/auth/signup" method="post">
         <h1>Productivity Tracker</h1>
         <div class="email">
             <label for="email">Email:</label>
@@ -90,10 +90,7 @@
             <label for="confirmPassword">Confirm:</label>
             <input type="password" id="confirmPassword" name="confirmPassword" required>
         </div>
-        <div class="image">
-            <label for="image">Image:</label>
-            <input type="file" id="image" name="image" accept=".jpeg, .png, .jpg, .svg, .webp, .bmp, .tif" required>
-        </div>
+        
         <button type="submit">Register</button>
     </form>
 </body>

@@ -48,7 +48,7 @@ const verifyToken = async (req, res) => {
         if(expirationTime >= Date.now()) {
             await User.findOneAndUpdate({ email }, { isVerified: true });
             console.log("user verified successfully :)");
-            res.send("Welcome to our Community :)");
+            res.render('firstWelcome');
         } else {
             res.send('Token Time out :(\n. Register again to resend');
         }
