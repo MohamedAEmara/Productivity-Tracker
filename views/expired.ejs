@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Verified</title>
+    <title>Token Expired</title>
+    <!-- Add your CSS styles or include a stylesheet here -->
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -23,7 +24,7 @@
         }
 
         h1 {
-            color: #17a2b8;
+            color: #dc3545;
         }
 
         p {
@@ -33,7 +34,7 @@
         a.button {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #17a2b8;
+            background-color: #dc3545;
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
@@ -41,33 +42,19 @@
         }
 
         a.button:hover {
-            background-color: #136e7c;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: center;
-        }
-
-        a {
-            width: 200px;
+            background-color: #bd2130;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Congratulations!</h1>
+        <h1>Activation Link Expired</h1>
         <p>
-            Your account has been successfully verified. You can now upload your profile image and start exploring our platform.
+            Sorry, the activation link has expired. You can request a new activation link to your email.
         </p>
-        <div class="options">
-            <a href="/users/upload" class="button">Upload Profile Image</a>
-            <a href="/users/login" class="button">Log in</a>
-        </div>
+        <a href="/users/resend-activation/<%= token %>" class="button">Resend Activation Email</a>
         <p>
-            <em>Thank you for choosing our platform!</em>
+            If you need further assistance, please contact support at support@example.com.
         </p>
     </div>
     <!-- Add your footer or additional content here -->

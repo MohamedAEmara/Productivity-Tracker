@@ -4,7 +4,7 @@ const router = express.Router();
 // const { getSignupPage, loginUser, signupUser } = require('../controllers/userController');
 const { loginUser, signupUser } = require('../controllers/userController');
 const { verifyToken } = require('../controllers/authController');
-
+const { resendActivation } = require('../controllers/authController');
 
 router.get('/signup', (req, res) => {
     res.render('signup');
@@ -24,6 +24,7 @@ router
     .get(loginUser);
 
 
+router.get('/resend-activation/:token', resendActivation);
 
     
 module.exports = router;

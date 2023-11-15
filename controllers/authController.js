@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken")
 const dotenv = require('dotenv');
 dotenv.config({ path: './config/.env' });
 const User = require('../models/User');
+const { createAndSendVerificationEmail } = require("../utils/sendVerification");
 
 const signToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -41,7 +42,7 @@ const verifyToken = async (req, res) => {
     const secret = process.env.JWT_SECRET;
 
     try {
-        const decoded = jwt.verify(token, secret);
+        const decoded = jwt.decode(token, secret);
         const email = decoded.email;
         const expirationTime = new Date(decoded.exp * 1000);
 
@@ -50,10 +51,27 @@ const verifyToken = async (req, res) => {
             console.log("user verified successfully :)");
             res.render('firstWelcome');
         } else {
-            res.send('Token Time out :(\n. Register again to resend');
+            console.log('Token time out.');
+            res.render('expired', { token: token });
         }
+    } catch (err) {
+        // res.render('expired', { token: token });
+        console.log(err);
+    }
+}
+
+
+const resendActivation = (req, res) => {
+    const token = req.params.token;
+    const secret = process.env.JWT_SECRET;
+
+    try {
+        const decoded = jwt.decode(token, secret);
+        const email = decoded.email;
+        createAndSendVerificationEmail(email);
+        res.render('new');
     } catch (err) {
         console.log(err);
     }
 }
-module.exports = { createAndSendToken, isVerified, verifyToken }
+module.exports = { createAndSendToken, isVerified, verifyToken, resendActivation }
