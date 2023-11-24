@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const { createAndSendToken } = require('./authController');
 const { createAndSendVerificationEmail } = require("../utils/sendVerification");
+const { uploadToDrive } = require("../utils/uploadToDrive");
 
 exports.signupUser = async (req, res) => {
     try {
@@ -83,8 +84,12 @@ exports.loginUser = async (req, res) => {
 }
 
 
-exports.uploadImage = (req, res) => {
+exports.uploadImage = async (req, res) => {
     if (req.file) {
+        console.log(req.file);
+        // uploadToDrive(req.file)
+        const id = req.file.filename.split(".")[0]; 
+        await uploadToDrive(req.file.path, id)
         res.send('File uploaded successfully!');
     } else {
         res.status(400).send('No file selected.');

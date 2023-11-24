@@ -1,6 +1,10 @@
 const multer = require('multer');
 const path = require('path');
 const jwt = require('jsonwebtoken');
+const { uploadToDrive } = require('./uploadToDrive');
+
+
+let name, id;
 
 const storage = multer.diskStorage({
     destination: 'uploads/',
@@ -20,14 +24,19 @@ const storage = multer.diskStorage({
         });
 
         const modifiedFilename = req.user + originalExtension;
+        name = "../uploads/" + modifiedFilename;
+        id = req.user;
         cb(null, modifiedFilename);
     }
 });
 
 const upload = multer({ storage: storage });
 
+// const singleImageUpload = () => {
+//     upload.single('image');
+//     // await uploadToDrive(name, id);
+// }
 const singleImageUpload = upload.single('image');
-
 module.exports = {
     singleImageUpload
 };
