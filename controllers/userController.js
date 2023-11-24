@@ -82,3 +82,11 @@ exports.loginUser = async (req, res) => {
     }
 }
 
+
+exports.uploadImage = (req, res) => {
+    if (req.file) {
+        res.send('File uploaded successfully!');
+    } else {
+        res.status(400).send('No file selected.');
+    }
+};

@@ -17,11 +17,25 @@ const connectDB = require('./db/connectDB');
 
 
 const userRoutes = require('./routes/userRoutes');
+const { singleImageUpload } = require('./utils/upload');
+const { uploadImage } = require('./controllers/userController');
 app.use('/users', userRoutes);
 
+const path = require('path');
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: 'uploads/',
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const { isAuthorized } = require('./controllers/authController.js');
+// route for uploading single image (locally)..
+app.use('/upload', isAuthorized, singleImageUpload, uploadImage);
 
 
-
+// app.use('/test', isAuthorized);
 
 const port = process.env.PORT || 8080;
  

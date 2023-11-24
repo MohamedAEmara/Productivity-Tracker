@@ -12,7 +12,7 @@ const signToken = (id) => {
 
 
 const createAndSendToken = (user, statusCode, res) => {
-    const token = signToken(user.email);
+    const token = signToken(user._id);
     
     res.cookie("jwt", token, {
         httpOnly: true,
@@ -74,4 +74,25 @@ const resendActivation = (req, res) => {
         console.log(err);
     }
 }
-module.exports = { createAndSendToken, isVerified, verifyToken, resendActivation }
+
+
+
+function isAuthorized(req, res, next) {
+    const token = req.cookies.jwt; 
+    console.log(token);
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized - No token provided' });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ error: 'Unauthorized - Invalid token' });
+        }
+
+        req.user = decoded;
+        next();
+    });
+}
+
+
+module.exports = { createAndSendToken, isVerified, verifyToken, resendActivation, isAuthorized }

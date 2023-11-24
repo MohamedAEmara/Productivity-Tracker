@@ -5,12 +5,21 @@ const router = express.Router();
 const { loginUser, signupUser } = require('../controllers/userController');
 const { verifyToken } = require('../controllers/authController');
 const { resendActivation } = require('../controllers/authController');
+const { uploadImage } = require('../utils/upload');
 
 router.get('/signup', (req, res) => {
     res.render('signup');
 })
 
+router.get('/login', (req, res) => {
+    res.render('login');
+})
 
+router.get('/upload', (req, res) => {
+    res.render('upload-image');
+})
+
+// router.post('/upload', uploadImage)
 // router.get('/new/:token', verifyToken);
 router.route('/new/:token').get(verifyToken);
 
@@ -21,7 +30,7 @@ router
 
 router
     .route('/auth/login')
-    .get(loginUser);
+    .post(loginUser);
 
 
 router.get('/resend-activation/:token', resendActivation);
