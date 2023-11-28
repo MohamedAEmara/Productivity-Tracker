@@ -64,3 +64,18 @@ exports.showNotCompletedTasks = async (req, res) => {
         })
     }
 }
+
+
+
+
+exports.showAddTaskFrom = (req, res) => {
+    try {
+        res.render('add');
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: 'fail', 
+            message: 'Internal Server Error!'
+        })
+    }
+}

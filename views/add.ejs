@@ -31,10 +31,10 @@ nav li {
   margin-right: 20px;
 }
 
-main {
+/* main {
   display: flex;
   flex-wrap: wrap;
-}
+} */
 
 .sidebar {
   background-color: #333;
@@ -93,8 +93,8 @@ main {
   margin: 10px 0;
   padding: 10px;
   border-radius: 4px;
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
 }
 
 .task-details {
@@ -153,11 +153,11 @@ header {
     z-index: 1000;
 }
 
-main {
+/* main {
   display: flex;
   flex-wrap: wrap;
   margin-top: 60px;
-}
+} */
 
 .sidebar {
   background-color: #333;
@@ -206,11 +206,11 @@ main {
     margin-top: 40px;
 }
 
-#task-container {
+/* #task-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-}
+} */
 
 .task-card {
   background-color: #ffffff;
@@ -266,13 +266,41 @@ header {
 }
 
 .logo {
-  margin-right: 50%;
+  margin-right:  42%;
+ 
 }
 
-  #toggle-sidebar-btn {
+#toggle-sidebar-btn {
     padding: 5px 10px;
     font-size: 15px;
-  }
+}
+
+.add-task-popup {
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    gap: 30px;    
+}
+
+main {
+    /* margin: 20px; */
+    /* padding: 0px; */
+}
+section.task-manager {
+    display: block !important;
+    margin: auto !important;
+    width: min(90%, 300px) !important; /* Optional: Specify the width of the element */
+    margin-top: max(20%, 200px) !important;
+}
+
+
     </style>    
     <script>
           document.addEventListener('DOMContentLoaded', function () {
@@ -308,29 +336,40 @@ header {
         </aside>
 
         <section class="task-manager">
-        <h1><%=page%></h1>
-            <div id="task-container">
-              <% tasks.forEach(task => { %>
-                <div class="task-card <%= task.done ? 'done' : 'not-done' %>">
-                  <h3><%= task.name %></h3>
-                  <p>Task Time: <%= task.time %></p>
-                  <p>Time Remaining: <%= task.remainingTime %></p>
-                  <p>Status: <%= task.completed? 'Done' : 'Not Done' %></p>
-                  <div class="button-container">
-                    <button class="button delete-button">Delete</button>
-                    <button class="button start-button">Start</button>
-                  </div>
-                </div>
-              <% }); %>
-            </div>
+            <h3>Add Task</h3>
+                <main>
+                    <div class="add-task-popup">
+                        <div class="input-group">
+                            <label for="taskName">Task Name:</label>
+                            <input type="text" id="taskName" name="taskName" required>
+                        </div>
+            
+                        <div class="input-group">
+                            <label for="taskTime">Task Time:</label>
+                            <input type="text" id="taskTime" name="taskTime" required>
+                        </div>
+            
+                        <div class="button-container">
+                            <button class="button" onclick="cancelAddTask()">Cancel</button>
+                            <button class="button" onclick="addTask()">Add</button>
+                        </div>
+                    </div>
+                </main>
+            
+                <script>
+                    function cancelAddTask() {
+                    // Handle cancel action 
+                    }
+                
+                    function addTask() {
+                    // Handle add task action 
+                    }
+                </script>
         </section>
     </main>
   
     <div class="add-task-button">
-        <a href="/tasks/add">
-            <button id="add-task-btn" href="localhost:3000/tasks/add">+</button>
-
-        </a>
+        <button id="add-task-btn">+</button>
     </div>
 
 
@@ -338,18 +377,15 @@ header {
         function logout() {
           // Create a form element
           const form = document.createElement('form');
-          form.method = 'POST'; // Set the HTTP method to POST
-          form.action = '/users/auth/logout'; // Set the form action to the logout endpoint
+          form.method = 'POST'; 
+          form.action = '/users/auth/logout'; 
     
-          // Append the form to the body
           document.body.appendChild(form);
     
-          // Create a submit button and append it to the form
           const submitBtn = document.createElement('input');
           submitBtn.type = 'submit';
           form.appendChild(submitBtn);
     
-          // Submit the form
           form.submit();
         }
       </script>
