@@ -10,10 +10,13 @@ const taskSchema = mongoose.Schema({
     completed: {
         type: Boolean,
         default: false,
-    }, 
-    remainingTime: {
+    },
+    time: {
         type: Number,
         required: true,
+    },
+    remainingTime: {
+        type: Number,
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
