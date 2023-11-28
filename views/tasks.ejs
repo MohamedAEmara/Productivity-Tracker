@@ -300,10 +300,10 @@ header {
     <main>
         <aside class="sidebar">
         <ul>
-            <li><a href="/tasks/me" class="">My Tasks</a></li>
+            <li><a href="/tasks/all" class="">All Tasks</a></li>
             <li><a href="/tasks/completed" class="">Completed</a></li>
             <li><a href="/tasks/notCompleted" class="">Not Completed</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <li><a href="#" onclick="logout()">Logout</a></li>
         </ul>
         </aside>
 
@@ -330,6 +330,27 @@ header {
         <button id="add-task-btn">+</button>
     </div>
 
+
+    <script>
+        function logout() {
+          // Create a form element
+          const form = document.createElement('form');
+          form.method = 'POST'; // Set the HTTP method to POST
+          form.action = '/users/auth/logout'; // Set the form action to the logout endpoint
+    
+          // Append the form to the body
+          document.body.appendChild(form);
+    
+          // Create a submit button and append it to the form
+          const submitBtn = document.createElement('input');
+          submitBtn.type = 'submit';
+          form.appendChild(submitBtn);
+    
+          // Submit the form
+          form.submit();
+        }
+      </script>
+    
     
 </body>
 </html>

@@ -21,6 +21,11 @@ const { singleImageUpload } = require('./utils/upload');
 const { uploadImage } = require('./controllers/userController');
 app.use('/users', userRoutes);
 
+
+const taskRoutes = require('./routes/taskRoutes.js');
+app.use('/tasks', taskRoutes);
+
+
 const path = require('path');
 const multer = require('multer');
 const storage = multer.diskStorage({

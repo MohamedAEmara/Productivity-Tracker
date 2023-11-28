@@ -95,3 +95,9 @@ exports.uploadImage = async (req, res) => {
         res.status(400).send('No file selected.');
     }
 };
+
+
+
+exports.logoutUser = (req, res) => {
+    // NOT Implemented Yet.
+}
