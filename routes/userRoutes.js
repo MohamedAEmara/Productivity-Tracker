@@ -6,6 +6,7 @@ const { loginUser, signupUser, logoutUser } = require('../controllers/userContro
 const { verifyToken } = require('../controllers/authController');
 const { resendActivation } = require('../controllers/authController');
 const { uploadImage } = require('../utils/upload');
+const { isAuthenticated } = require('../middlewares/isAuthenticated');
 
 router.get('/signup', (req, res) => {
     res.render('signup');
@@ -32,7 +33,7 @@ router
     .route('/auth/login')
     .post(loginUser);
 
-router.post('/auth/logout', logoutUser);
+router.post('/auth/logout', isAuthenticated, logoutUser);
 router.get('/resend-activation/:token', resendActivation);
 
     

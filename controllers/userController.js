@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const { createAndSendToken } = require('./authController');
 const { createAndSendVerificationEmail } = require("../utils/sendVerification");
 const { uploadToDrive } = require("../utils/uploadToDrive");
+const BlackList = require("../models/BlackList");
 
 exports.signupUser = async (req, res) => {
     try {
@@ -99,5 +100,8 @@ exports.uploadImage = async (req, res) => {
 
 
 exports.logoutUser = (req, res) => {
-    // NOT Implemented Yet.
+    BlackList.create({
+        token: req.cookies.jwt
+    });
+    res.render('login');
 }
