@@ -100,7 +100,7 @@ exports.createTask = async (req, res) => {
         
         console.log('Task Created Successfully!');  
         const tasks = await Task.find({ user: req.user });
-        res.render('tasks', {tasks, page: 'Completed Tasks'})
+        res.render('tasks', {tasks, page: 'All Tasks'})
     } catch (err) {
         console.log(err);
         res.status(400).json({
