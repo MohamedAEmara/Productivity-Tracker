@@ -212,7 +212,7 @@ header {
   gap: 20px;
 } */
 
-.task-card {
+/* .task-card {
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -222,7 +222,7 @@ header {
   transition: transform 0.3s;
   display: flex;
   flex-direction: column;
-}
+} */
 
 .task-card:hover {
   transform: translateY(-5px);
@@ -289,17 +289,69 @@ header {
     gap: 30px;    
 }
 
-main {
-    /* margin: 20px; */
-    /* padding: 0px; */
+
+.cancel {
+  border-radius: 20px;
+  height: 30px;
+  width: 30px;
 }
+
+.cancelBtn {
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  background-color: gray;
+  width: 30px;
+  height: 30px;
+  border-radius: 20px;
+}
+
 section.task-manager {
     display: block !important;
     margin: auto !important;
-    width: min(90%, 300px) !important; /* Optional: Specify the width of the element */
+    width: min(90%, 340px) !important; /* Optional: Specify the width of the element */
     margin-top: max(20%, 200px) !important;
 }
 
+#top {
+  /* margin-top: 0; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.button-container {
+  align-self: center;
+}
+
+.button {
+  width: 100px;
+}
+
+.time {
+  display: flex;
+  gap: 8px;
+}
+
+input[type="number"] {
+  width: 40px;
+
+}
+
+.time > * {
+  gap: 5px;
+}
+
+#taskName {
+  width: 60%;
+}
 
     </style>    
     <script>
@@ -336,46 +388,64 @@ section.task-manager {
         </aside>
 
         <section class="task-manager">
-            <h3>Add Task</h3>
+            <div id="top">
+              <h2>Add Task</h2>
+              <a class="cancel" href="/tasks/all"><button class="cancelBtn">x</button></a>
+            </div>
                 <main>
                     <div class="add-task-popup">
-                        <div class="input-group">
-                            <label for="taskName">Task Name:</label>
-                            <input type="text" id="taskName" name="taskName" required>
-                        </div>
-            
-                        <div class="input-group">
-                            <label for="taskTime">Task Time:</label>
-                            <input type="text" id="taskTime" name="taskTime" required>
-                        </div>
-            
-                        <div class="button-container">
-                            <button class="button" onclick="cancelAddTask()">Cancel</button>
-                            <button class="button" onclick="addTask()">Add</button>
-                        </div>
+                        <form action="/tasks" method="POST">
+                          <div class="input-group">
+                              <label for="taskName">Task Name:</label>
+                              <input type="text" id="taskName" name="taskName" required>
+                          </div>
+                          
+                          <div class="time">
+                            <div class="input-group">
+                              <label for="hours">Hours:</label>
+                              <input type="number" id="hours" name="hours" min="0" value="0" required>
+                            </div>
+                            <div class="input-group">
+                              <label for="minutes">Minutes:</label>
+                              <input type="number" id="minutes" name="minutes" min="0" max="59" value="0" required>
+                            </div>
+                            <div class="input-group">
+                              <label for="seconds">Seconds:</label>
+                              <input type="number" id="seconds" name="seconds" min="0" max="59" value="0" required>
+                            </div>
+                          </div>
+                      
+                        
+              
+                          <div class="button-container">                              
+                              <button class="button" type="submit">Add</button>
+                          </div>
+                        </form>
                     </div>
                 </main>
             
-                <script>
-                    function cancelAddTask() {
-                    // Handle cancel action 
-                    }
                 
-                    function addTask() {
-                    // Handle add task action 
-                    }
-                </script>
         </section>
     </main>
   
-    <div class="add-task-button">
-        <button id="add-task-btn">+</button>
-    </div>
-
 
     <script>
         function logout() {
           // Create a form element
+          const form = document.createElement('form');
+          form.method = 'GET'; 
+          form.action = '/users/auth/logout'; 
+    
+          document.body.appendChild(form);
+    
+          const submitBtn = document.createElement('input');
+          submitBtn.type = 'submit';
+          form.appendChild(submitBtn);
+    
+          form.submit();
+        }
+
+        function cancelAddTask() {
           const form = document.createElement('form');
           form.method = 'POST'; 
           form.action = '/users/auth/logout'; 
@@ -387,7 +457,7 @@ section.task-manager {
           form.appendChild(submitBtn);
     
           form.submit();
-        }
+      }
       </script>
     
     

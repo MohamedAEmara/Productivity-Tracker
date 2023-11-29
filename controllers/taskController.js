@@ -79,3 +79,40 @@ exports.showAddTaskFrom = (req, res) => {
         })
     }
 }
+
+
+
+
+exports.createTask = async (req, res) => {
+    try {
+        const name = req.body.taskName;
+        const hours = req.body.hours;
+        const minutes = req.body.minutes;
+        const seconds = req.body.seconds;
+
+        const time = seconds * 1 + minutes * 60 + hours * 3600;
+
+        const task = await Task.create({
+            name, 
+            time,
+            user: req.user
+        });
+        
+        console.log('Task Created Successfully!');  
+        const tasks = await Task.find({ user: req.user });
+        res.render('tasks', {tasks, page: 'Completed Tasks'})
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: 'fail',
+            message: 'Bad Request'
+        });
+    }
+}
+
+
+
+// exports.showTask = null;
+
+// exports.deleteTask = null;
+// exports.updateTask = null;
