@@ -10,9 +10,23 @@ const signToken = (id) => {
     });
 }
 
+const generateToken = (payload, secret, expiresIn) => {
+    if (!payload || !secret || !expiresIn) return;
+    return jwt.sign(payload, secret, {
+      expiresIn
+    });
+  };  
 
 const createAndSendToken = (user, statusCode, res) => {
-    const token = signToken(user._id);
+    const payload = {
+        id: user._id
+    };
+
+    const token = generateToken(
+        payload,
+        process.env.JWT_SECRET,
+        parseInt(process.env.JWT_EXPIRES_IN)
+    );
     
     res.cookie("jwt", token, {
         httpOnly: true,

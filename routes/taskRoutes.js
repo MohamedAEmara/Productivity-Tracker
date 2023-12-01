@@ -6,19 +6,19 @@ const { showAllTasks, showCompletedTasks, showNotCompletedTasks, showAddTaskFrom
 const { isAuthenticated } = require('../middlewares/isAuthenticated');
 
 
-taskRouter.use(isAuthenticated); 
+// taskRouter.use(isAuthenticated); 
 
 // CRUD operations for tasks:
 taskRouter
     .route('/')
-    .post(createTask)
+    .post(isAuthenticated, createTask)
     
 
-// taskRouter
-//     .route('/:taskId')
-//     .get(showTask)
-//     .patch(updateTask)
-//     .delete(deleteTask);
+taskRouter
+    .route('/:taskId')
+    // .get(showTask)
+    // .patch(updateTask)
+    .delete(isAuthenticated, deleteTask, showAllTasks);
 
 
 taskRouter
@@ -27,10 +27,10 @@ taskRouter
 
 
 
-taskRouter.get('/all', showAllTasks);
-taskRouter.get('/completed', showCompletedTasks);
-taskRouter.get('/notCompleted', showNotCompletedTasks);
-taskRouter.get('/add', showAddTaskFrom);
+taskRouter.get('/all',isAuthenticated, showAllTasks);
+taskRouter.get('/completed',isAuthenticated, showCompletedTasks);
+taskRouter.get('/notCompleted',isAuthenticated, showNotCompletedTasks);
+taskRouter.get('/add',isAuthenticated, showAddTaskFrom);
 
 
 

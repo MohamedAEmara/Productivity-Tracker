@@ -5,13 +5,14 @@ const Task = require("../models/Task")
 
 exports.showAllTasks = async (req, res) => {
     try {
-        const tasks = await Task.find({ 
-            $and: [
-                { user: req.user },
-                { completed: { $ne: true} }
-            ]
-        });
-        // const tasks = await Task.find({ user: req.user });
+        console.log('show alll');
+        // const tasks = await Task.find({ 
+        //     $and: [
+        //         { user: req.user },
+        //         { completed: { $ne: true} }
+        //     ]
+        // });
+        const tasks = await Task.find({ user: req.user });
         // console.log(tasks);
         res.render('tasks', { tasks, page: 'All Tasks' });
     } catch (err) {
@@ -110,6 +111,25 @@ exports.createTask = async (req, res) => {
     }
 }
 
+
+exports.deleteTask = async (req, res, next) => {
+    try {
+        await Task.findByIdAndDelete(req.params.taskId);
+        console.log('task deleted successfully');
+        const tasks = await Task.find({ user: req.user });
+        console.log(tasks);
+
+        next();
+
+    } catch (err) {
+        console.log(err);
+        return res.status(400).json({
+            status: 'fail',
+            message: 'Cannot delete task!',
+            error: err
+        });
+    }
+}
 
 
 // exports.showTask = null;

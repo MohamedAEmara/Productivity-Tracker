@@ -6,6 +6,8 @@ const { createAndSendToken } = require('./authController');
 const { createAndSendVerificationEmail } = require("../utils/sendVerification");
 const { uploadToDrive } = require("../utils/uploadToDrive");
 const BlackList = require("../models/BlackList");
+const dotenv = require('dotenv');
+dotenv.config({path: "./config/.env"});
 
 exports.signupUser = async (req, res) => {
     try {
@@ -60,7 +62,7 @@ exports.loginUser = async (req, res) => {
         }
 
         // Validate Password
-        const correctPassword = bcrypt.compare(password, user.password);
+        const correctPassword = await bcrypt.compare(password, user.password);
         if(correctPassword) {
             // Check if this user is verified.
             if(user.isVerified) {

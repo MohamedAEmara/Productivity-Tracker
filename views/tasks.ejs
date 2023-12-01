@@ -269,6 +269,9 @@ header {
   margin-right: 50%;
 }
 
+#delete-form {
+  padding: 0px;
+}
   #toggle-sidebar-btn {
     padding: 5px 10px;
     font-size: 15px;
@@ -317,8 +320,13 @@ header {
                   <p>Time Remaining: <%= task.remainingTime %></p>
                   <p>Status: <%= task.completed? 'Done' : 'Not Done' %></p>
                   <div class="button-container">
-                    <button class="button delete-button">Delete</button>
-                    <button class="button start-button">Start</button>
+                    <form action="/tasks/<%= task._id %>" method="POST" id="delete-form" class="button delete-button">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <button type="submit">
+                        <!-- You can add an icon or text here -->
+                        Delete
+                      </button>
+                    </form>
                   </div>
                 </div>
               <% }); %>
@@ -335,23 +343,25 @@ header {
 
 
     <script>
-        function logout() {
-          // Create a form element
-          const form = document.createElement('form');
-          form.method = 'POST'; // Set the HTTP method to POST
-          form.action = '/users/auth/logout'; // Set the form action to the logout endpoint
-    
-          // Append the form to the body
-          document.body.appendChild(form);
-    
-          // Create a submit button and append it to the form
-          const submitBtn = document.createElement('input');
-          submitBtn.type = 'submit';
-          form.appendChild(submitBtn);
-    
-          // Submit the form
-          form.submit();
-        }
+      
+
+      function logout() {
+        // Create a form element
+        const form = document.createElement('form');
+        form.method = 'POST'; // Set the HTTP method to POST
+        form.action = '/users/auth/logout'; // Set the form action to the logout endpoint
+  
+        // Append the form to the body
+        document.body.appendChild(form);
+  
+        // Create a submit button and append it to the form
+        const submitBtn = document.createElement('input');
+        submitBtn.type = 'submit';
+        form.appendChild(submitBtn);
+  
+        // Submit the form
+        form.submit();
+      }
       </script>
     
     

@@ -4,6 +4,21 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './config/.env' });
 const cookieParser = require('cookie-parser');
 const ejs = require('ejs');
+
+const methodOverride = require("method-override");
+app.use(express.urlencoded({ extended: true })); // Body parsing middleware
+
+// app.use(methodOverride('_method'));
+app.use(
+  methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      // look in urlencoded POST bodies and delete it
+      let method = req.body._method
+      delete req.body._method
+      return method
+    }
+}))
+
 app.use(express.json());
 app.use(cookieParser());
 const bodyParser = require('body-parser');
@@ -14,7 +29,6 @@ app.set('view engine', 'ejs');
 
 
 const connectDB = require('./db/connectDB');
-
 
 const userRoutes = require('./routes/userRoutes');
 const { singleImageUpload } = require('./utils/upload');

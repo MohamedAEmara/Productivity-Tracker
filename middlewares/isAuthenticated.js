@@ -7,8 +7,16 @@ dotenv.config('./config/.env');
 
 exports.isAuthenticated = async (req, res, next) => {
     try {
-        // Check for the token.
+        // req.cookies.jwt
+        // // Check for the token.
+        console.log("=-=-=-=-=-=-=-=-=-=-=-=");
+        // console.log(req);
+        console.log(req.headers);
+        // console.log(req.headers.cookie);
         const token = req.cookies.jwt;
+        console.log(token);
+        // console.log(token);
+        // console.log('token');
         const isBlackListed = await BlackList.findOne({ token });
         if(isBlackListed) {
             return res.status(400).json({
@@ -16,7 +24,10 @@ exports.isAuthenticated = async (req, res, next) => {
                 message: 'Please login first to see the content!'
             });
         }
-        const id = jwt.decode(token, process.env.JWT_SECRET).id;
+        const tmp = (jwt.decode(token, process.env.JWT_SECRET));
+        console.log('tmp');
+        console.log(tmp);
+        const id = tmp.id;
         req.user = id;
         console.log(token);
         next();
