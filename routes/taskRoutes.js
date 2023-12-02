@@ -17,7 +17,7 @@ taskRouter
 taskRouter
     .route('/:taskId')
     // .get(showTask)
-    // .patch(updateTask)
+    .patch(isAuthenticated, updateTask)
     .delete(isAuthenticated, deleteTask, showAllTasks);
 
 

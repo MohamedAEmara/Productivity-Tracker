@@ -131,7 +131,19 @@ exports.deleteTask = async (req, res, next) => {
     }
 }
 
-
+exports.updateTask = async (req, res) => {
+    try {
+        const task = await Task.findByIdAndUpdate(req.params.taskId, req.body);
+        console.log(task);
+        res.send(task);
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: 'fail',
+            error: err
+        });
+    }
+}
 // exports.showTask = null;
 
 // exports.deleteTask = null;

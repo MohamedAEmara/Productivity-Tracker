@@ -269,8 +269,50 @@ header {
   margin-right: 50%;
 }
 
+form#delete-form {
+  border-radius: 30px;
+  background-color: white;
+}
+.red {
+  background-color: rgb(161, 61, 61);
+  padding: 7px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0px 0px 15px #888888;
+  /* width: 30%; */
+
+}
+
+.blue {
+  padding: 7px;
+  border-radius: 12px;
+  background-color: #3498db;
+  background-color: rgb(52, 219, 80);
+  font-size: 16px;
+  font-weight: 500;
+  /* width: 2rem; */
+  /* color: white; */
+  box-shadow: 0px 0px 15px #888888;
+}
+
+button:hover{
+  cursor: pointer;
+}
 #delete-form {
   padding: 0px;
+}
+
+.task-card {
+  box-shadow: 0px 0px 15px #888888;
+}
+
+.button-container {
+  display: flex;
+  /* justify-content: end; */
+  /* gap: 8px; */
+  justify-content: space-between;
 }
   #toggle-sidebar-btn {
     padding: 5px 10px;
@@ -314,7 +356,7 @@ header {
         <h1><%=page%></h1>
             <div id="task-container">
               <% tasks.forEach(task => { %>
-                <div class="task-card <%= task.done ? 'done' : 'not-done' %>">
+                <div class="task-card <%= task.completed ? 'done' : 'not-done' %>">
                   <h3><%= task.name %></h3>
                   <p>Task Time: <%= task.time %></p>
                   <p>Time Remaining: <%= task.remainingTime %></p>
@@ -322,12 +364,16 @@ header {
                   <div class="button-container">
                     <form action="/tasks/<%= task._id %>" method="POST" id="delete-form" class="button delete-button">
                       <input type="hidden" name="_method" value="DELETE">
-                      <button type="submit">
-                        <!-- You can add an icon or text here -->
-                        Delete
-                      </button>
+                      <button type="submit" class="red">Delete</button>
+                    </form>
+                    <button class="blue" style="<%= task.completed ? 'display:none;' : '' %>">Start</button>
+                    <form action="/tasks/<%= task._id %>" method="POST" id="delete-form" class="button delete-button">
+                      <input type="hidden" name="_method" value="PATCH">
+                      <button type="submit" class="red">Edit</button>
                     </form>
                   </div>
+
+                
                 </div>
               <% }); %>
             </div>
