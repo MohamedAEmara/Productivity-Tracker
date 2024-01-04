@@ -11,7 +11,7 @@ const signToken = (id) => {
 }
 
 const generateToken = (payload, secret, expiresIn) => {
-    if (!payload || !secret || !expiresIn) return;
+    if (!payload || !secret || expiresIn === undefined) return;
     return jwt.sign(payload, secret, {
       expiresIn
     });
@@ -35,6 +35,27 @@ const createAndSendToken = (user, statusCode, res) => {
     });
 }
 
+
+const logoutUser = (user, statusCode, res) => {
+    const payload = {
+        id: user._id
+    };
+
+    const token = generateToken(
+        payload,
+        process.env.JWT_SECRET,
+        0
+    );
+
+    // console.log(res);
+    console.log(token);
+
+    res.cookie("jwt", token, {
+        httpOnly: true,
+        secure: true,
+        expires: 0
+    });
+}
 
 
 const isVerified = (req, res, next) => {
@@ -109,4 +130,4 @@ function isAuthorized(req, res, next) {
 }
 
 
-module.exports = { createAndSendToken, isVerified, verifyToken, resendActivation, isAuthorized }
+module.exports = { createAndSendToken, isVerified, verifyToken, resendActivation, isAuthorized, logoutUser }

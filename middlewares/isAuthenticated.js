@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const BlackList = require('../models/BlackList');
 dotenv.config('./config/.env');
 
 
@@ -15,16 +14,16 @@ exports.isAuthenticated = async (req, res, next) => {
         // console.log(req.headers.cookie);
         const token = req.cookies.jwt;
         console.log(token);
-        // console.log(token);
-        // console.log('token');
-        const isBlackListed = await BlackList.findOne({ token });
-        if(isBlackListed) {
-            return res.status(400).json({
+
+        const tmp = (jwt.decode(token, process.env.JWT_SECRET));
+        console.log(tmp);
+        console.log(Date.now());
+        if(tmp.exp <= Math.floor(Date.now() / 1000)) {
+            res.status(400).json({
                 status: 'fail',
                 message: 'Please login first to see the content!'
             });
         }
-        const tmp = (jwt.decode(token, process.env.JWT_SECRET));
         console.log('tmp');
         console.log(tmp);
         const id = tmp.id;

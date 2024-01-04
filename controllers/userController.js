@@ -2,10 +2,9 @@ const User = require("../models/User");
 const emailValidator = require('email-validator');
 const bcrypt = require('bcryptjs');
 
-const { createAndSendToken } = require('./authController');
+const { createAndSendToken, logoutUser } = require('./authController');
 const { createAndSendVerificationEmail } = require("../utils/sendVerification");
 const { uploadToDrive } = require("../utils/uploadToDrive");
-const BlackList = require("../models/BlackList");
 const dotenv = require('dotenv');
 dotenv.config({path: "./config/.env"});
 
@@ -101,9 +100,13 @@ exports.uploadImage = async (req, res) => {
 
 
 
-exports.logoutUser = (req, res) => {
-    BlackList.create({
-        token: req.cookies.jwt
-    });
+exports.logout = async (req, res) => {
+    const id = req.user;
+    const user = await User.findOne({_id: id});
+    console.log('USERRRRRRRR');
+    // console.log(req);
+    console.log(user);
+    logoutUser(user, 200, res);
+
     res.render('login');
 }

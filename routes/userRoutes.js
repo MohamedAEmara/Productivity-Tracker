@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 // const { getSignupPage, loginUser, signupUser } = require('../controllers/userController');
-const { loginUser, signupUser, logoutUser } = require('../controllers/userController');
+const { loginUser, signupUser, logout } = require('../controllers/userController');
 const { verifyToken } = require('../controllers/authController');
-const { resendActivation } = require('../controllers/authController');
+const { resendActivation, logoutUser } = require('../controllers/authController');
 const { uploadImage } = require('../utils/upload');
 const { isAuthenticated } = require('../middlewares/isAuthenticated');
 
@@ -33,7 +33,7 @@ router
     .route('/auth/login')
     .post(loginUser);
 
-router.post('/auth/logout', isAuthenticated, logoutUser);
+router.post('/auth/logout', isAuthenticated, logout);
 router.get('/resend-activation/:token', resendActivation);
 
     

@@ -131,6 +131,8 @@ exports.deleteTask = async (req, res, next) => {
     }
 }
 
+
+// =========================================== NOT COMPLELETED =========================================== //
 exports.updateTask = async (req, res) => {
     try {
         const task = await Task.findByIdAndUpdate(req.params.taskId, req.body);
