@@ -49,7 +49,7 @@ const storage = multer.diskStorage({
 const { isAuthorized } = require('./controllers/authController.js');
 // route for uploading single image (locally)..
 app.use('/upload', isAuthorized, singleImageUpload, uploadImage);
-app.use('/test', (req, res) => res.render('timer'));
+app.use('/test', (req, res) => res.render('timer', { time: 3600, remaining: 10 }));
 
 // app.use('/test', isAuthorized);
 

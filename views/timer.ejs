@@ -471,13 +471,15 @@ button:hover{
         let circularProgress = document.querySelector('.circular-progress');
         let progressValue = document.querySelector('.progress-value'); 
         
-        let originalValue = 10000;
+        let originalValue = "<%= time %>";
+        let progressEndValue = "<%= remaining %>";
 
-        let progressStartValue = 0;
-        let progressEndValue = 10000;
+        let progressStartValue = originalValue - progressEndValue;
         speed = 1000;
 
         let remaining = originalValue - progressStartValue;
+
+
 
         let progress = setInterval(() => {
             progressStartValue ++;
@@ -485,7 +487,7 @@ button:hover{
 
             progressValue.textContent = `${toTime(remaining)}`;
 
-            circularProgress.style.background = `conic-gradient(#000000 ${(progressStartValue / progressEndValue)*100 * 3.6}deg, #ededed 0deg)`
+            circularProgress.style.background = `conic-gradient(#000000 ${(progressStartValue / originalValue)*100 * 3.6}deg, #ededed 0deg)`
             if(progressStartValue == progressEndValue) {
                 clearInterval(progress);
             }
@@ -495,14 +497,18 @@ button:hover{
 
 
         function toTime(timeSec) {
+
             let hours = 0, mins = 0, secs = 0;
-            hours = Math.floor(timeSec / (60 * 60));
-            timeSec -= hours * 60 * 60;
-
-            mins  = Math.floor(timeSec / (60));
-            timeSec -= mins * 60;
-
-            secs = timeSec;
+            
+            if(timeSec > 0) {
+              hours = Math.floor(timeSec / (60 * 60));
+              timeSec -= hours * 60 * 60;
+  
+              mins  = Math.floor(timeSec / (60));
+              timeSec -= mins * 60;
+  
+              secs = timeSec;
+            }
 
             return `${hours}:${mins}:${secs}`;
         }
