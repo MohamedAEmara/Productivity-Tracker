@@ -403,14 +403,46 @@ button:hover{
     padding-top: 150px;
     width: 100%;
     display: flex;
-    align-self: center;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    gap: 30px;
     /* background-color: #2ecc71; */
+}
+
+
+.buttons {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-around;
+  gap: 100px;
+}
+
+.buttons > * {
+  /* width: 20%; */
+  padding: 15px;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 20px;
 }
 
 .container {
     align-items: center;
 }
+
+#start-timer {
+  background-color: green;
+}
+
+#stop-timer {
+  background-color: red;
+}
+
+button:disabled {
+  background-color: gray !important;
+  cursor:wait !important;
+}
+
 </style>
 </head>
 <body>
@@ -437,6 +469,10 @@ button:hover{
                 </div>
                 <span class="text">Time Remaining</span>
             </div>
+            <div class="buttons">
+              <button id="start-timer">Start</button>
+              <button id="stop-timer">Stop</button>
+            </div>
         </section>
         
     </main>
@@ -449,9 +485,41 @@ button:hover{
     </div>
 
     
-
-
+    <script defer src="http://localhost:4000/socket.io/socket.io.js"></script>
+    <script defer src="./script.js"></script>
     <script>
+      
+      
+        const startTimer = document.getElementById('start-timer');
+        const stopTimer = document.getElementById('stop-timer');
+
+        let running = false;
+
+        startTimer.addEventListener('click', () => {
+          // 1- Disable start button
+          startTimer.disabled = true;
+          // 2- Enable stop button
+          stopTimer.disabled = false;
+          // 3- start the timer
+          startTask();
+          running = true;
+
+      
+        });
+
+
+        stopTimer.addEventListener('click', () => {
+          // 1- Disable stop button
+          stopTimer.disabled = true;
+          // 2- Enable start button
+          startTimer.disabled = false;
+          // 3- stop the timer
+          stopTask();
+          running = false;
+        });
+
+
+        
         document.addEventListener('DOMContentLoaded', function () {
           const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
           const sidebar = document.querySelector('.sidebar');
@@ -473,26 +541,37 @@ button:hover{
         
         let originalValue = "<%= time %>";
         let progressEndValue = "<%= remaining %>";
-
+        
         let progressStartValue = originalValue - progressEndValue;
         speed = 1000;
-
+        
         let remaining = originalValue - progressStartValue;
+        
+        let intervalId;
+        
+        function startTask () {
+            intervalId = setInterval(() => {
+              if(running) {
+                progressStartValue ++;
+                remaining = originalValue - progressStartValue;
+      
+                progressValue.textContent = `${toTime(remaining)}`;
+      
+                circularProgress.style.background = `conic-gradient(#000000 ${(progressStartValue / originalValue)*100 * 3.6}deg, #ededed 0deg)`
+                if(progressStartValue == progressEndValue) {
+                    clearInterval(progress);
+                }
+                console.log(progressStartValue);
 
+              }
+          }, speed)
+        }
 
-
-        let progress = setInterval(() => {
-            progressStartValue ++;
-            remaining = originalValue - progressStartValue;
-
-            progressValue.textContent = `${toTime(remaining)}`;
-
-            circularProgress.style.background = `conic-gradient(#000000 ${(progressStartValue / originalValue)*100 * 3.6}deg, #ededed 0deg)`
-            if(progressStartValue == progressEndValue) {
-                clearInterval(progress);
-            }
-            console.log(progressStartValue);
-        }, speed)
+        
+        function stopTask () {
+          clearInterval(intervalId);
+        
+        }
 
 
 

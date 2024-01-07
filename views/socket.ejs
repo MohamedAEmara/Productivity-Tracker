@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.io Client</title>
+</head>
+<body>
+  <h1>Socket.io Client</h1>
+  <button id="start"></button>
+  <div id="messages"></div>
+
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+  <script>
+    
+    const start = document.getElementById('start');
+    document.addEventListener('DOMContentLoaded', () => {
+      const socket = io();
+
+      socket.on('message', (message) => {
+        const messagesDiv = document.getElementById('messages');
+        messagesDiv.innerHTML += `<p>${message}</p>`;
+      });
+      
+      function sendTwoSeconds() {
+        socket.emit('two-sec');
+      }
+      
+      start.addEventListener('click', () => {
+        setInterval(sendTwoSeconds, 2000);
+        
+      })
+      
+      
+    })
+    </script>
+</body>
+</html>

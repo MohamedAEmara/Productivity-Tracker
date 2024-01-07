@@ -17,6 +17,8 @@ app.use(
     }
 }))
 
+
+
 app.use(express.json());
 app.use(cookieParser());
 const bodyParser = require('body-parser');
@@ -64,3 +66,5 @@ app.listen(port, async () => {
         console.log(err);
     }
 })
+
+
