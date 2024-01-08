@@ -2,7 +2,7 @@ const express = require('express');
 const taskRouter = express.Router();
 
 
-const { showAllTasks, showCompletedTasks, showNotCompletedTasks, showAddTaskFrom, showTask, createTask, deleteTask, updateTask } = require('../controllers/taskController');
+const { showAllTasks, showCompletedTasks, showNotCompletedTasks, showAddTaskFrom, showTask, createTask, deleteTask, updateTask, editTask } = require('../controllers/taskController');
 const { isAuthenticated } = require('../middlewares/isAuthenticated');
 
 
@@ -13,6 +13,7 @@ taskRouter
     .route('/')
     .post(isAuthenticated, createTask)
     
+taskRouter.patch('/:taskId/update', editTask);
 
 taskRouter
     .route('/:taskId')

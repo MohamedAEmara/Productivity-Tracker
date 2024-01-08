@@ -394,70 +394,39 @@ input[type="number"] {
             </div>
                 <main>
                     <div class="add-task-popup">
-                      <form id="patchForm" action="/tasks" method="POST">
-                        <!-- Keep the method as POST -->
-                        <input type="hidden" name="_method" value="PATCH">
-                        <div class="input-group">
-                            <label for="taskName">Task Name:</label>
-                            <input type="text" id="taskName" name="taskName" required>
-                        </div>
+                        <form action="/tasks/<%= task._id %>/update" method="POST">
+                            <input type="hidden" name="_method" value="PATCH">
+                          <div class="input-group">
+                              <label for="taskName">Task Name:</label>
+                              <input type="text" id="taskName" name="taskName" value = "<%= task.name %>" required>
+                          </div>
+                          
+                          <div class="time">
+                            <div class="input-group">
+                              <label for="hours">Hours:</label>
+                              <input type="number" id="hours" name="hours" min="0" value="<%= hours %>" required>
+                            </div>
+                            <div class="input-group">
+                              <label for="minutes">Minutes:</label>
+                              <input type="number" id="minutes" name="minutes" min="0" max="59" value = "<%= mins %>" required>
+                            </div>
+                            <div class="input-group">
+                              <label for="seconds">secs:</label>
+                              <input type="number" id="seconds" name="seconds" min="0" max="59" value="<%= secs %>" required>
+                            </div>
+                          </div>
+                      
+                          <button type="submit"></button>
+              
+                        </form>
                         
-                        <div class="time">
-                            <div class="input-group">
-                                <label for="hours">Hours:</label>
-                                <input type="number" id="hours" name="hours" min="0" value="0" required>
-                            </div>
-                            <div class="input-group">
-                                <label for="minutes">Minutes:</label>
-                                <input type="number" id="minutes" name="minutes" min="0" max="59" value="0" required>
-                            </div>
-                            <div class="input-group">
-                                <label for="seconds">Seconds:</label>
-                                <input type="number" id="seconds" name="seconds" min="0" max="59" value="0" required>
-                            </div>
-                        </div>
-                    
-                        <button class="button" type="button" onclick="submitPatchForm()">Update</button>
-                    </form>
-                    
                     </div>
                 </main>
             
                 
         </section>
     </main>
-  
-
     <script>
-      function submitPatchForm() {
-        // Get the form element
-        var form = document.getElementById("patchForm");
-
-        // Change the method to POST before submitting
-        form.method = "POST";
-
-        // Add an event listener to submit the form using AJAX
-        form.addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            // Perform an AJAX request with the PATCH method
-            var xhr = new XMLHttpRequest();
-            xhr.open("PATCH", form.action, true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onload = function () {
-                // Handle the response as needed
-                console.log(xhr.responseText);
-            };
-            xhr.send(new URLSearchParams(new FormData(form)));
-
-            // Reset the form if necessary
-            form.reset();
-        });
-
-        // Trigger the form submission
-        form.submit();
-    }
-
         function logout() {
           // Create a form element
           const form = document.createElement('form');

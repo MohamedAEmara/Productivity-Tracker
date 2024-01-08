@@ -133,11 +133,49 @@ exports.deleteTask = async (req, res, next) => {
 
 
 // =========================================== NOT COMPLELETED =========================================== //
+exports.editTask = async (req, res) => {
+    try {
+        const name = req.body.taskName;
+        const hours = req.body.hours;
+        const minutes = req.body.minutes;
+        const seconds = req.body.seconds;
+        
+        console.log(req.params.taskId);
+        console.log(req.body);
+
+        const time = seconds * 1 + minutes * 60 + hours * 3600;
+        let completed = false;
+        if(time === 0) {
+            completed = true;
+        }
+        const task = await Task.findByIdAndUpdate(req.params.taskId, { name: req.body.taskName, remainingTime: time, completed });
+        console.log(task);
+        const tasks = await Task.find();
+        res.render('tasks', { tasks, page: 'All Tasks'});
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: 'fail',
+            error: err
+        })
+    }
+}
+
+
 exports.updateTask = async (req, res) => {
     try {
-        const task = await Task.findByIdAndUpdate(req.params.taskId, req.body);
+        // const task = await Task.findByIdAndUpdate(req.params.taskId, req.body);
+        // console.log(task);
+        // res.send(task);
+        const task = await Task.findById(req.params.taskId);
         console.log(task);
-        res.send(task);
+        const hours = Math.floor(task.remainingTime / 3600);
+        const mins = Math.floor((task.remainingTime - hours * 3600) / 60);
+        const secs = Math.floor(task.remainingTime - hours * 3600 - 60 * mins);
+
+
+        console.log(hours, mins, secs);
+        res.render('edit', { task: task, hours, mins, secs });
     } catch (err) {
         console.log(err);
         res.status(400).json({

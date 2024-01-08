@@ -1,5 +1,9 @@
 const express = require('express');
 const app = express();
+const httpServer = require('http').createServer(app);
+const io = require('socket.io')(httpServer);
+const morgan = require('morgan');
+
 const dotenv = require('dotenv');
 dotenv.config({ path: './config/.env' });
 const cookieParser = require('cookie-parser');
@@ -21,6 +25,11 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
+
+// Morgan
+const customLogFormat = ':method :url';
+app.use(morgan(customLogFormat));
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -53,6 +62,17 @@ const { isAuthorized } = require('./controllers/authController.js');
 app.use('/upload', isAuthorized, singleImageUpload, uploadImage);
 app.use('/test', (req, res) => res.render('timer', { time: 3600, remaining: 10 }));
 
+
+io.on('connection', (socket) => {
+    console.log(`A user connected: ${socket.id}`);
+
+    socket.on('two-sec', () => {
+        console.log('2 seconds passed!!!');
+
+    })
+
+
+})
 // app.use('/test', isAuthorized);
 
 const port = process.env.PORT || 8080;
