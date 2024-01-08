@@ -148,6 +148,9 @@ exports.editTask = async (req, res) => {
         if(time === 0) {
             completed = true;
         }
+        console.log(req.params.taskId);
+        console.log(typeof req.params.taskId);
+        
         const task = await Task.findByIdAndUpdate(req.params.taskId, { name: req.body.taskName, remainingTime: time, completed });
         console.log(task);
         const tasks = await Task.find();
@@ -184,7 +187,52 @@ exports.updateTask = async (req, res) => {
         });
     }
 }
-// exports.showTask = null;
 
-// exports.deleteTask = null;
-// exports.updateTask = null;
+
+exports.displayTask = async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.taskId);
+        res.render('timer', { task });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: 'fail',
+            error: err
+        });
+    }
+}
+
+
+exports.startTask = (req, res) => {
+    try {
+        const express = require('express');
+        const app = express();
+        const httpServer = require('http').createServer(app); // Create an HTTP server
+        const io = require('socket.io')(httpServer); // Integrate Socket.io with the HTTP server
+
+        io.on('connection', (socket) => {
+            console.log(`A user connected: ${socket.id}`);
+        
+            // Send a message to the client every 5 seconds
+            const interval = setInterval(() => {
+                socket.emit('message', 'Server: Hello from server!');
+            }, 5000);
+        
+            socket.on('two-sec', () => {
+                console.log('2 seconds passed!!');
+            })
+            // Listen for disconnect event
+            socket.on('disconnect', () => {
+                console.log(`User disconnected: ${socket.id}`);
+                clearInterval(interval); // Stop sending messages on disconnect
+            });
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: 'fail',
+            error: err
+        });
+    }
+}

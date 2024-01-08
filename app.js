@@ -1,90 +1,89 @@
 const express = require('express');
 const app = express();
-const httpServer = require('http').createServer(app);
-const io = require('socket.io')(httpServer);
-const morgan = require('morgan');
+const httpServer = require('http').createServer(app); // Create an HTTP server
+const io = require('socket.io')(httpServer); // Integrate Socket.io with the HTTP server
 
 const dotenv = require('dotenv');
 dotenv.config({ path: './config/.env' });
 const cookieParser = require('cookie-parser');
 const ejs = require('ejs');
 
-const methodOverride = require("method-override");
-app.use(express.urlencoded({ extended: true })); // Body parsing middleware
-
+const methodOverride = require('method-override');
+app.use(express.urlencoded({ extended: true }));
 app.use(
   methodOverride(function (req, res) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-      let method = req.body._method
-      delete req.body._method
-      return method
+      let method = req.body._method;
+      delete req.body._method;
+      return method;
     }
-}))
-
-
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
-
-// Morgan
-const customLogFormat = ':method :url';
-app.use(morgan(customLogFormat));
-
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 
+const connectDB = require('./db/connectDB.js');
 
-const connectDB = require('./db/connectDB');
-
-const userRoutes = require('./routes/userRoutes');
-const { singleImageUpload } = require('./utils/upload');
-const { uploadImage } = require('./controllers/userController');
+const userRoutes = require('./routes/userRoutes.js');
+const { singleImageUpload } = require('./utils/upload.js');
+const { uploadImage } = require('./controllers/userController.js');
 app.use('/users', userRoutes);
-
 
 const taskRoutes = require('./routes/taskRoutes.js');
 app.use('/tasks', taskRoutes);
 
-
 const path = require('path');
 const multer = require('multer');
 const storage = multer.diskStorage({
-    destination: 'uploads/',
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
+  destination: 'uploads/',
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  },
 });
 
 const { isAuthorized } = require('./controllers/authController.js');
-// route for uploading single image (locally)..
+const Task = require('./models/Task.js');
+
+// Route for uploading a single image (locally)..
 app.use('/upload', isAuthorized, singleImageUpload, uploadImage);
-app.use('/test', (req, res) => res.render('timer', { time: 3600, remaining: 10 }));
+// app.use('/test', (req, res) => res.render('timer', { time: 3600, remaining: 10 }));
+app.use('/test', (req, res) => res.render('socket'));
 
-
+// Set up Socket.io events
 io.on('connection', (socket) => {
-    console.log(`A user connected: ${socket.id}`);
+  console.log(`A user connected: ${socket.id}`);
 
-    socket.on('two-sec', () => {
-        console.log('2 seconds passed!!!');
+  socket.on('second', async(id) => {
+    console.log('1 seconds passed!!');
+    // update the remaining of the user with this id..
+    console.log(id);
+    console.log(typeof id);
+    const strId = id.toString();
+    console.log(typeof strId);
+    // await User.findOneAndUpdate({ _id: strId }, { remainingTime: this.remainingTime-1});
+    await Task.findByIdAndUpdate(id.id, { $inc: { remainingTime: -1 }});
+  })
+  // Listen for disconnect event
+  socket.on('disconnect', () => {
+    console.log(`User disconnected: ${socket.id}`);
+    
+  });
 
-    })
-
-
-})
-// app.use('/test', isAuthorized);
+  
+});
 
 const port = process.env.PORT || 8080;
- 
-app.listen(port, async () => {
-    try {
-        await connectDB();
-        console.log(`App is listenning on port ${port}`)
-        
-    } catch (err) {
-        console.log(err);
-    }
-})
 
-
+httpServer.listen(port, async () => {
+  try {
+    await connectDB();
+    console.log(`App is listening on port ${port}`);
+  } catch (err) {
+    console.log(err);
+  }
+});

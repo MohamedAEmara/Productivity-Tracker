@@ -444,6 +444,24 @@ button:disabled {
 }
 
 </style>
+<script>
+  function toTime(timeSec) {
+
+let hours = 0, mins = 0, secs = 0;
+
+if(timeSec > 0) {
+  hours = Math.floor(timeSec / (60 * 60));
+  timeSec -= hours * 60 * 60;
+
+  mins  = Math.floor(timeSec / (60));
+  timeSec -= mins * 60;
+
+  secs = timeSec;
+}
+
+return `${hours}:${mins}:${secs}`;
+}
+</script>
 </head>
 <body>
 
@@ -465,7 +483,7 @@ button:disabled {
         <section id="task-manager">
             <div class="container">
                 <div class="circular-progress">
-                    <span class="progress-value">0%</span>
+                  <span class="progress-value"></span>
                 </div>
                 <span class="text">Time Remaining</span>
             </div>
@@ -485,13 +503,49 @@ button:disabled {
     </div>
 
     
-    <script defer src="http://localhost:4000/socket.io/socket.io.js"></script>
-    <script defer src="./script.js"></script>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+  
     <script>
       
+      const startTimer = document.getElementById('start-timer');
+      const stopTimer = document.getElementById('stop-timer');
+      const socket = io();
+
+        document.addEventListener('DOMContentLoaded', () => {
+          const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
+          const sidebar = document.querySelector('.sidebar');
+          const taskManager = document.getElementById('task-manager');
+          const taskContainer = document.getElementById('task-container');
+
       
-        const startTimer = document.getElementById('start-timer');
-        const stopTimer = document.getElementById('stop-timer');
+          toggleSidebarBtn.addEventListener('click', function () {
+            sidebar.classList.toggle('visible');
+            const isSidebarVisible = sidebar.classList.contains('visible');
+            taskManager.style.marginLeft = isSidebarVisible ? '270px' : '20px';
+            taskContainer.style.marginLeft = isSidebarVisible ? '270px' : '20px';
+          });
+
+
+          // console.log('connected to server!!!!!!!!!!');
+
+          socket.on('message', (message) => {
+            const messagesDiv = document.getElementById('messages');
+            if(messagesDiv)
+              messagesDiv.innerHTML += `<p>${message}</p>`;
+          });
+          
+          function sendTwoSeconds() {
+            socket.emit('two-sec');
+          }
+          
+          // start.addEventListener('click', () => {
+          //   setInterval(sendTwoSeconds, 2000);
+            
+          // })
+          
+          
+        })
+      
 
         let running = false;
 
@@ -503,7 +557,7 @@ button:disabled {
           // 3- start the timer
           startTask();
           running = true;
-
+          
       
         });
 
@@ -519,28 +573,17 @@ button:disabled {
         });
 
 
-        
-        document.addEventListener('DOMContentLoaded', function () {
-          const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
-          const sidebar = document.querySelector('.sidebar');
-          const taskManager = document.getElementById('task-manager');
-          const taskContainer = document.getElementById('task-container');
 
-      
-          toggleSidebarBtn.addEventListener('click', function () {
-            sidebar.classList.toggle('visible');
-            const isSidebarVisible = sidebar.classList.contains('visible');
-            taskManager.style.marginLeft = isSidebarVisible ? '270px' : '20px';
-            taskContainer.style.marginLeft = isSidebarVisible ? '270px' : '20px';
-          });
-        });
+
+        
+  
 
 
         let circularProgress = document.querySelector('.circular-progress');
         let progressValue = document.querySelector('.progress-value'); 
         
-        let originalValue = "<%= time %>";
-        let progressEndValue = "<%= remaining %>";
+        let originalValue = "<%= task.time %>";
+        let progressEndValue = "<%= task.remainingTime %>";
         
         let progressStartValue = originalValue - progressEndValue;
         speed = 1000;
@@ -561,12 +604,36 @@ button:disabled {
                 if(progressStartValue == progressEndValue) {
                     clearInterval(progress);
                 }
-                console.log(progressStartValue);
+                  console.log(progressStartValue);
+                socket.emit('second', { id: "<%= task._id %>"});
 
               }
           }, speed)
         }
 
+
+        // This runs at the beginning of running this view to display the remaining time on the timer
+        // it runs for only one sec not to affect the actual remaining time..
+        (function initializeTask () {
+          
+          const intervalId = setInterval(() => {
+            if (1) {
+              progressStartValue ++;
+                remaining = originalValue - progressStartValue;
+      
+                progressValue.textContent = `${toTime(remaining)}`;
+      
+                circularProgress.style.background = `conic-gradient(#000000 ${(progressStartValue / originalValue)*100 * 3.6}deg, #ededed 0deg)`
+                if(progressStartValue == progressEndValue) {
+                    clearInterval(progress);
+                }
+            }
+          }, 1);
+
+          setTimeout(() => {
+            clearInterval(intervalId);
+          }, 1);
+        })()
         
         function stopTask () {
           clearInterval(intervalId);
@@ -575,22 +642,7 @@ button:disabled {
 
 
 
-        function toTime(timeSec) {
-
-            let hours = 0, mins = 0, secs = 0;
-            
-            if(timeSec > 0) {
-              hours = Math.floor(timeSec / (60 * 60));
-              timeSec -= hours * 60 * 60;
-  
-              mins  = Math.floor(timeSec / (60));
-              timeSec -= mins * 60;
-  
-              secs = timeSec;
-            }
-
-            return `${hours}:${mins}:${secs}`;
-        }
+        
         
         function logout() {
         // Create a form element

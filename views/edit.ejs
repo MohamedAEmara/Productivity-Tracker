@@ -353,6 +353,17 @@ input[type="number"] {
   width: 60%;
 }
 
+#edit-btn {
+    width: fit-content;
+    align-self: center;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 15px;
+}
+
     </style>    
     <script>
           document.addEventListener('DOMContentLoaded', function () {
@@ -416,7 +427,7 @@ input[type="number"] {
                             </div>
                           </div>
                       
-                          <button type="submit"></button>
+                          <button type="submit" id="edit-btn">Edit</button>
               
                         </form>
                         
@@ -434,7 +445,7 @@ input[type="number"] {
           form.action = '/users/auth/logout'; 
     
           document.body.appendChild(form);
-    
+    f
           const submitBtn = document.createElement('input');
           submitBtn.type = 'submit';
           form.appendChild(submitBtn);

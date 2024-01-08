@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/style.css">
     <title>Productivity Tracker</title>
     <style>
 body {
@@ -366,7 +365,9 @@ button:hover{
                       <input type="hidden" name="_method" value="DELETE">
                       <button type="submit" class="red">Delete</button>
                     </form>
-                    <button class="blue" style="<%= task.completed ? 'display:none;' : '' %>">Start</button>
+                    <form action="/tasks/<%= task._id %>" method="GET" id="delete-form" class="button delete-button">
+                      <button class="blue" style="<%= task.completed ? 'display:none;' : '' %>">Start</button>
+                    </form>
                     <form action="/tasks/<%= task._id %>" method="POST" id="delete-form" class="button delete-button">
                       <input type="hidden" name="_method" value="PATCH">
                       <button type="submit" class="red">Edit</button>
