@@ -14,7 +14,7 @@ exports.showAllTasks = async (req, res) => {
         // });
         const tasks = await Task.find({ user: req.user });
         // console.log(tasks);
-        res.render('tasks', { tasks, page: 'All Tasks' });
+        res.render('tasks', { tasks, hero: req.hero, page: 'All Tasks' });
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -35,7 +35,7 @@ exports.showCompletedTasks = async (req, res) => {
                 { completed: true }
             ]
         });
-        res.render('tasks', { tasks, page: 'Completed Tasks' });
+        res.render('tasks', { tasks, hero: req.hero, page: 'Completed Tasks' });
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -56,7 +56,7 @@ exports.showNotCompletedTasks = async (req, res) => {
                 { completed: { $ne: true} }
             ]
         });
-        res.render('tasks', { tasks, page: 'Not-Completed Tasks' });
+        res.render('tasks', { tasks, hero: req.hero, page: 'Not-Completed Tasks' });
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -101,7 +101,7 @@ exports.createTask = async (req, res) => {
         
         console.log('Task Created Successfully!');  
         const tasks = await Task.find({ user: req.user });
-        res.render('tasks', {tasks, page: 'All Tasks'})
+        res.render('tasks', {tasks, hero: req.hero, page: 'All Tasks'})
     } catch (err) {
         console.log(err);
         res.status(400).json({
@@ -154,7 +154,7 @@ exports.editTask = async (req, res) => {
         const task = await Task.findByIdAndUpdate(req.params.taskId, { name: req.body.taskName, remainingTime: time, completed });
         console.log(task);
         const tasks = await Task.find();
-        res.render('tasks', { tasks, page: 'All Tasks'});
+        res.render('tasks', { tasks, hero: req.hero, page: 'All Tasks'});
     } catch (err) {
         console.log(err);
         res.status(400).json({

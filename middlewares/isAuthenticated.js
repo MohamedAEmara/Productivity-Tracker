@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const User = require('../models/User');
 dotenv.config('./config/.env');
 
 
@@ -28,6 +29,7 @@ exports.isAuthenticated = async (req, res, next) => {
         console.log(tmp);
         const id = tmp.id;
         req.user = id;
+        req.hero = await User.findById(id);
         console.log(token);
         next();
     } catch(err) {

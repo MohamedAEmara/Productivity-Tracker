@@ -228,11 +228,11 @@ main {
 }
 
 .done {
-  color: #2ecc71; 
+  /* color: #2ecc71;  */
 }
 
 .not-done {
-  color: #e74c3c; 
+  /* color: #e74c3c;  */
 }
 
 .button-container {
@@ -317,6 +317,38 @@ button:hover{
     padding: 5px 10px;
     font-size: 15px;
   }
+
+
+  #profile-image {
+    width: 60px;
+    border-radius: 30px;
+  }
+
+  .profile {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 80px;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Make sure the body takes up the full height of the viewport */
+    background-color: rgb(212, 212, 212);
+  }
+  
+  /* .task-card {
+    
+    background:  rgb(136, 135, 135);
+  } */
+
+  .task-card.done {
+    
+    background-color: rgb(136, 135, 135);
+  }
+  
+
     </style>    
     <script>
           document.addEventListener('DOMContentLoaded', function () {
@@ -343,6 +375,10 @@ button:hover{
 
     <main>
         <aside class="sidebar">
+          <div class="profile">
+            <img src="<%= hero.profilePic %>" id="profile-image">
+            <div><%= hero.username %></div>
+          </div>
         <ul>
             <li><a href="/tasks/all" class="">All Tasks</a></li>
             <li><a href="/tasks/completed" class="">Completed</a></li>
