@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const { createAndSendToken, logoutUser } = require('./authController');
 const { createAndSendVerificationEmail } = require("../utils/sendVerification");
-const { uploadToDrive } = require("../utils/uploadToDrive");
+const { uploadToDrive, cloudinaryUpload } = require("../utils/uploadToDrive");
 const dotenv = require('dotenv');
 dotenv.config({path: "./config/.env"});
 
@@ -89,9 +89,13 @@ exports.loginUser = async (req, res) => {
 exports.uploadImage = async (req, res) => {
     if (req.file) {
         console.log(req.file);
+        console.log('=-=-=-=--=-=-=-=-=');
         // uploadToDrive(req.file)
         const id = req.file.filename.split(".")[0]; 
-        await uploadToDrive(req.file.path, id)
+        const url = await cloudinaryUpload(req.file.path, id);
+        console.log(req.user);
+        const user = await User.findOneAndUpdate(req.user, { profilePic: url });
+        console.log(user);
         res.send('File uploaded successfully!');
     } else {
         res.status(400).send('No file selected.');

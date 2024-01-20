@@ -65,3 +65,28 @@ exports.uploadToDrive = async (filePath, id) => {
         }) 
         .catch(err => console.error('Error uploading file:', err));
 }
+
+
+
+const cloudinary = require('cloudinary');
+const dotenv = require('dotenv');
+dotenv.config({ path: './.env'});
+
+console.log('Before');
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+console.log('After');
+console.log(process.env.CLOUDINARY_API_KEY);
+
+
+exports.cloudinaryUpload = async(file, id) => {
+    const img = await cloudinary.uploader.upload(file, {
+        public_id: id
+    },
+    function(error, result) {console.log(result); });
+    console.log(img);
+    return img.url;
+} 
