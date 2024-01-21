@@ -1,9 +1,10 @@
 const User = require("../models/User");
 const emailValidator = require('email-validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const { createAndSendToken, logoutUser } = require('./authController');
-const { createAndSendVerificationEmail } = require("../utils/sendVerification");
+const { createAndSendVerificationEmail, createAndSendResetPassword } = require("../utils/sendVerification");
 const { uploadToDrive, cloudinaryUpload } = require("../utils/uploadToDrive");
 const dotenv = require('dotenv');
 dotenv.config({path: "./config/.env"});
@@ -113,4 +114,46 @@ exports.logout = async (req, res) => {
     logoutUser(user, 200, res);
 
     res.render('login');
+}
+
+
+
+exports.updatePassword = async (req, res) => {
+    const id = req.user;
+    const user = await User.findOne({_id: id});
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.confirmPassword;
+    const currPassword = user.password;
+    const correctPassword = await bcrypt.compare(oldPassword, currPassword);
+    
+    if(!correctPassword) {
+        res.status(400).send({
+            status: 'fail',
+            message: 'You current password is not correct!!'
+        });
+    }
+
+    await User.findOneAndUpdate({ _id: id }, { password: newPassword });
+}
+
+
+
+
+exports.forgotPassword = async (req, res) => {
+    const id = req.user;
+    const user = await User.findOne({ _id: id });
+
+    createAndSendResetPassword(user.email);
+    res.render('new-pass');
+
+}
+
+
+exports.displayResetPassword = (req, res) => {
+    const token = req.params.token;
+
+    console.log('******************************************************');
+    const tokenObj = jwt.decode(token, process.env.JWT_SECRET);
+    // res.send(tokenObj);
+    res.render('resetPassword', { token });
 }

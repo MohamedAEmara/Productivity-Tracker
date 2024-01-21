@@ -48,11 +48,13 @@ const storage = multer.diskStorage({
 
 const { isAuthorized } = require('./controllers/authController.js');
 const Task = require('./models/Task.js');
+const { showProfile } = require('./controllers/taskController.js');
+const { isAuthenticated } = require('./middlewares/isAuthenticated.js');
 
 // Route for uploading a single image (locally)..
 app.post('/upload', isAuthorized, singleImageUpload, uploadImage);
 // app.use('/test', (req, res) => res.render('timer', { time: 3600, remaining: 10 }));
-app.use('/test', (req, res) => res.render('socket'));
+app.use('/test', isAuthenticated,  showProfile);
 
 // Set up Socket.io events
 io.on('connection', (socket) => {

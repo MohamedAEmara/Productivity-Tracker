@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity Tracker</title>
+    <style>
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  overflow-x: hidden;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 1em;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  display: inline;
+  margin-right: 20px;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sidebar {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  width: 200px;
+  min-height: 100vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar ul {
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+}
+
+.sidebar a.active {
+  font-weight: bold;
+}
+
+.task-manager {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  flex: 1;
+  margin-left: 20px;
+}
+
+#create-task-btn {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#task-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task-item {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.task-details {
+  display: flex;
+  align-items: center;
+}
+
+.task-title {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.task-timer {
+  font-size: 16px;
+  color: #333;
+}
+
+.add-task-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+#add-task-btn {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  overflow-x: hidden; 
+}
+
+
+
+
+header {
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+    padding: 1em;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 60px;
+}
+
+.sidebar {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  width: 200px;
+  min-height: 100vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 60px; 
+  z-index: 999;
+}
+
+
+
+.sidebar {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  width: 200px;
+  min-height: 100vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transform: translateX(-100%); 
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.visible {
+  transform: translateX(0); 
+}
+.task-manager {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  flex: 1;
+  margin-left: 20px;
+  transition: margin-left 0.3s ease-in-out; 
+}
+
+.sidebar.visible + .task-manager {
+  margin-left: 270px;
+}
+
+.task-manager {
+    margin-right: 20px;
+    margin-top: 40px;
+}
+
+#task-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.task-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  width: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.task-card:hover {
+  transform: translateY(-5px);
+}
+
+.done {
+  /* color: #2ecc71;  */
+}
+
+.not-done {
+  /* color: #e74c3c;  */
+}
+
+.button-container {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  background-color: #3498db; 
+  color: #ffffff;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #2980b9; 
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6em;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.logo {
+  margin-right: 50%;
+}
+
+form#delete-form {
+  border-radius: 30px;
+  background-color: white;
+}
+.red {
+  background-color: rgb(161, 61, 61);
+  padding: 7px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0px 0px 15px #888888;
+  /* width: 30%; */
+
+}
+
+.blue {
+  padding: 7px;
+  border-radius: 12px;
+  background-color: #3498db;
+  background-color: rgb(52, 219, 80);
+  font-size: 16px;
+  font-weight: 500;
+  /* width: 2rem; */
+  /* color: white; */
+  box-shadow: 0px 0px 15px #888888;
+}
+
+button:hover{
+  cursor: pointer;
+}
+#delete-form {
+  padding: 0px;
+}
+
+.task-card {
+  box-shadow: 0px 0px 15px #888888;
+}
+
+.button-container {
+  display: flex;
+  /* justify-content: end; */
+  /* gap: 8px; */
+  justify-content: space-between;
+}
+  #toggle-sidebar-btn {
+    padding: 5px 10px;
+    font-size: 15px;
+  }
+
+
+  #profile-image {
+    width: 60px;
+    border-radius: 30px;
+  }
+
+  #profile-image-large {
+    width: 200px;
+
+  }
+  .profile {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 80px;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Make sure the body takes up the full height of the viewport */
+    background-color: rgb(212, 212, 212);
+  }
+  
+
+  /* .task-card {
+    
+    background:  rgb(136, 135, 135);
+  } */
+
+  .task-card.done {
+    
+    background-color: rgb(136, 135, 135);
+  }
+  
+
+    </style>    
+    <script>
+          document.addEventListener('DOMContentLoaded', function () {
+          const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
+          const sidebar = document.querySelector('.sidebar');
+          const taskManager = document.getElementById('task-manager');
+          const taskContainer = document.getElementById('task-container');
+
+      
+          toggleSidebarBtn.addEventListener('click', function () {
+            sidebar.classList.toggle('visible');
+            const isSidebarVisible = sidebar.classList.contains('visible');
+            taskManager.style.marginLeft = isSidebarVisible ? '270px' : '20px';
+            taskContainer.style.marginLeft = isSidebarVisible ? '270px' : '20px';
+          });
+        });
+      </script>
+</head>
+<body>
+    <header>
+      <button id="toggle-sidebar-btn">&#9776;</button>
+      <h3 class="logo">Productivity Tracker</h3>
+    </header>
+
+    <main>
+        <aside class="sidebar">
+          <div class="profile">
+            <img src="<%= hero.profilePic %>" id="profile-image">
+            <div><%= hero.username %></div>
+          </div>
+        <ul>
+            <li><a href="/tasks/all" class="">All Tasks</a></li>
+            <li><a href="/tasks/completed" class="">Completed</a></li>
+            <li><a href="/tasks/notCompleted" class="">Not Completed</a></li>
+            <li><a href="#" onclick="logout()">Logout</a></li>
+        </ul>
+        </aside>
+
+        <section class="task-manager">
+        <h1>Edit Profile</h1>
+            <div class="profile-image">
+                <img src="<%= hero.profilePic %>" id="profile-image-large">
+                <button><a href="/users/upload">Change Image</a></button>
+            </div>
+            
+            
+            <div class="change-username">
+                <label for="username">Username</label>
+                <div class="username"><%= hero.username %> </div>
+            </div>
+
+            <div class="email">
+                Email: <%= hero.email %>
+            </div>
+            
+            
+            <div class="change-password">
+                Password:
+                <a href="/users/changePassword"> Change Password</a> 
+            </div>
+
+        </section>
+    </main>
+  
+    <div class="add-task-button">
+        <a href="/tasks/add">
+            <button id="add-task-btn" href="localhost:3000/tasks/add">+</button>
+
+        </a>
+    </div>
+
+
+    <script>
+    //   const imgBtn = document.getElementById('change-profile-image');
+    //   imgBtn.addEventListener('click', )
+
+      function logout() {
+        // Create a form element
+        const form = document.createElement('form');
+        form.method = 'POST'; // Set the HTTP method to POST
+        form.action = '/users/auth/logout'; // Set the form action to the logout endpoint
+  
+        // Append the form to the body
+        document.body.appendChild(form);
+  
+        // Create a submit button and append it to the form
+        const submitBtn = document.createElement('input');
+        submitBtn.type = 'submit';
+        form.appendChild(submitBtn);
+  
+        // Submit the form
+        form.submit();
+      }
+      </script>
+    
+    
+</body>
+</html>

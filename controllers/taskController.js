@@ -236,3 +236,19 @@ exports.startTask = (req, res) => {
         });
     }
 }
+
+
+exports.showProfile = async (req, res) => {
+    try {
+        // const tasks = await Task.find({ user: req.user });
+        // console.log(tasks);
+        res.render('profile', { hero: req.hero });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: 'fail', 
+            message: 'Internal Server Error!'
+        })
+    }
+}
+
