@@ -94,7 +94,7 @@ exports.uploadImage = async (req, res) => {
         const id = req.file.filename.split(".")[0]; 
         const url = await cloudinaryUpload(req.file.path, id);
         console.log(req.user);
-        const user = await User.findOneAndUpdate(req.user, { profilePic: url });
+        const user = await User.findOneAndUpdate({ _id: req.user }, { profilePic: url });
         console.log(user);
         res.send('File uploaded successfully!');
     } else {

@@ -3,7 +3,7 @@ const router = express.Router();
 
 // const { getSignupPage, loginUser, signupUser } = require('../controllers/userController');
 const { loginUser, signupUser, logout } = require('../controllers/userController');
-const { verifyToken } = require('../controllers/authController');
+const { verifyToken, isAuthorized } = require('../controllers/authController');
 const { resendActivation, logoutUser } = require('../controllers/authController');
 const { uploadImage } = require('../utils/upload');
 const { isAuthenticated } = require('../middlewares/isAuthenticated');
@@ -16,7 +16,7 @@ router.get('/login', (req, res) => {
     res.render('login');
 })
 
-router.get('/upload', (req, res) => {
+router.get('/upload', isAuthorized, (req, res) => {
     res.render('upload-image');
 })
 

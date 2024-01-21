@@ -50,7 +50,7 @@ const { isAuthorized } = require('./controllers/authController.js');
 const Task = require('./models/Task.js');
 
 // Route for uploading a single image (locally)..
-app.use('/upload', isAuthorized, singleImageUpload, uploadImage);
+app.post('/upload', isAuthorized, singleImageUpload, uploadImage);
 // app.use('/test', (req, res) => res.render('timer', { time: 3600, remaining: 10 }));
 app.use('/test', (req, res) => res.render('socket'));
 
