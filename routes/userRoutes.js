@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // const { getSignupPage, loginUser, signupUser } = require('../controllers/userController');
-const { loginUser, signupUser, logout, updatePassword, forgotPassword, displayResetPassword } = require('../controllers/userController');
+const { loginUser, signupUser, logout, updatePassword, forgotPassword, displayResetPassword, updatePassword2 } = require('../controllers/userController');
 const { verifyToken, isAuthorized } = require('../controllers/authController');
 const { resendActivation, logoutUser } = require('../controllers/authController');
 const { uploadImage } = require('../utils/upload');
@@ -48,5 +48,5 @@ router.patch('/newPass', isAuthenticated, updatePassword);
 
 router.get('/resetPassword/:token', displayResetPassword);
 
-router.post('/resetPassword/:token', ) /////////// update password from req.body for the user in the token....
+router.post('/resetPassword/:token', updatePassword2); 
 module.exports = router;

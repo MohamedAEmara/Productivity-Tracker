@@ -138,6 +138,27 @@ exports.updatePassword = async (req, res) => {
 
 
 
+exports.updatePassword2 = async (req, res) => {
+    try {
+        const token = req.params.token;
+        const tokenObj = jwt.verify(token, process.env.JWT_SECRET);
+        let user = await User.findOne({ email: tokenObj.email });
+        const newPassword = req.body.password;
+        const hashedPassword = await bcrypt.hash(newPassword, parseInt(process.env.HASH_LENGTH));
+        user = await User.findByIdAndUpdate( user._id , { password: hashedPassword });
+        
+        logoutUser(user, 200, res);
+        res.render('login');
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: 'fail',
+            message: 'Something went wrong. Try again later!'
+        });
+    }
+}
+
+
 
 exports.forgotPassword = async (req, res) => {
     const id = req.user;
@@ -157,3 +178,4 @@ exports.displayResetPassword = (req, res) => {
     // res.send(tokenObj);
     res.render('resetPassword', { token });
 }
+
