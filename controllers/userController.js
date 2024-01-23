@@ -151,9 +151,9 @@ exports.updatePassword2 = async (req, res) => {
         res.render('login');
     } catch (err) {
         console.log(err);
-        res.status(500).json({
+        res.status(400).json({
             status: 'fail',
-            message: 'Something went wrong. Try again later!'
+            message: 'Link expired. Please Re-Enter your mail to get another one!'
         });
     }
 }
