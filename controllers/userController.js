@@ -160,15 +160,29 @@ exports.updatePassword2 = async (req, res) => {
 
 
 
+// exports.forgotPassword = async (req, res) => {
+//     const id = req.user;
+//     const user = await User.findOne({ _id: id });
+
+//     createAndSendResetPassword(user.email);
+//     res.render('new-pass');
+
+// }
+
+
 exports.forgotPassword = async (req, res) => {
-    const id = req.user;
-    const user = await User.findOne({ _id: id });
-
-    createAndSendResetPassword(user.email);
-    res.render('new-pass');
-
+    try {
+        const email = req.body.email;
+        createAndSendResetPassword(email);
+        res.render('new-pass');
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: 'fail',
+            message: 'Something went wront. Please try again!!'
+        });
+    }
 }
-
 
 exports.displayResetPassword = (req, res) => {
     const token = req.params.token;

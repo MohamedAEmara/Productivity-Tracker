@@ -40,11 +40,13 @@ router.get('/changePassword', isAuthorized, (req, res) => {
     res.render('change-password');
 })
 
-router.post('/forgotPassword', isAuthenticated, forgotPassword);
+router.post('/forgotPassword', forgotPassword);
     
 router.patch('/newPass', isAuthenticated, updatePassword);
 
-
+router.get('/enterYourMail', (req, res) => {
+    res.render('enter-your-mail');
+})
 
 router.get('/resetPassword/:token', displayResetPassword);
 
