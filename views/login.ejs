@@ -68,6 +68,19 @@
         input[type="text"], input[type="password"], input[type="email"]{
             width: 265px;
         }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .red:hover {
+            background-color: rgb(182, 0, 0);
+        }
     </style>
 </head>
 <body>
@@ -81,8 +94,10 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
         </div>
-        
-        <button type="submit">Login</button>
+        <div class="buttons">
+            <button type="submit">Login</button>
+            <a href="/users/enterYourMail" ><button type="button" class="red">Forgot Password?</button></a>
+        </div>
     </form>
 </body>
 </html>
