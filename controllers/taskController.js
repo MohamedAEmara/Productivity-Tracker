@@ -1,5 +1,5 @@
 const Task = require("../models/Task")
-
+const User = require("../models/User")
 
 
 
@@ -69,9 +69,11 @@ exports.showNotCompletedTasks = async (req, res) => {
 
 
 
-exports.showAddTaskFrom = (req, res) => {
+exports.showAddTaskFrom = async (req, res) => {
     try {
-        res.render('add');
+        const id = req.user;
+        const user = await User.findById(id);
+        res.render('add', { hero: user });
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -175,10 +177,12 @@ exports.updateTask = async (req, res) => {
         const hours = Math.floor(task.remainingTime / 3600);
         const mins = Math.floor((task.remainingTime - hours * 3600) / 60);
         const secs = Math.floor(task.remainingTime - hours * 3600 - 60 * mins);
-
+        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxx');
+        const id = req.user;
+        const user = await User.findById(id);
 
         console.log(hours, mins, secs);
-        res.render('edit', { task: task, hours, mins, secs });
+        res.render('edit', { task: task, hours, mins, secs, hero: user });
     } catch (err) {
         console.log(err);
         res.status(400).json({

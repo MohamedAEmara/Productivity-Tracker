@@ -353,6 +353,35 @@ input[type="number"] {
   width: 60%;
 }
 
+#profile-image {
+    width: 60px;
+    border-radius: 30px;
+  }
+
+  .profile {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 80px;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Make sure the body takes up the full height of the viewport */
+    background-color: rgb(212, 212, 212);
+  }
+  
+  /* .task-card {
+    
+    background:  rgb(136, 135, 135);
+  } */
+
+  .task-card.done {
+    
+    background-color: rgb(136, 135, 135);
+  }
+
     </style>    
     <script>
           document.addEventListener('DOMContentLoaded', function () {
@@ -378,14 +407,19 @@ input[type="number"] {
     </header>
 
     <main>
-        <aside class="sidebar">
-        <ul>
-            <li><a href="/tasks/all" class="">All Tasks</a></li>
-            <li><a href="/tasks/completed" class="">Completed</a></li>
-            <li><a href="/tasks/notCompleted" class="">Not Completed</a></li>
-            <li><a href="#" onclick="logout()">Logout</a></li>
-        </ul>
-        </aside>
+      <aside class="sidebar">
+        <div class="profile">
+          <img src="<%= hero.profilePic %>" id="profile-image">
+          <div><%= hero.username %></div>
+        </div>
+      <ul>
+        <li><a href="/users/dashboard">Dashboard</a></li>
+        <li><a href="/tasks/all" class="">All Tasks</a></li>
+        <li><a href="/tasks/completed" class="">Completed</a></li>
+        <li><a href="/tasks/notCompleted" class="">Not Completed</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
+      </aside>
 
         <section class="task-manager">
             <div id="top">
@@ -394,32 +428,33 @@ input[type="number"] {
             </div>
                 <main>
                     <div class="add-task-popup">
-                      <form id="patchForm" action="/tasks" method="POST">
-                        <!-- Keep the method as POST -->
-                        <input type="hidden" name="_method" value="PATCH">
-                        <div class="input-group">
-                            <label for="taskName">Task Name:</label>
-                            <input type="text" id="taskName" name="taskName" required>
-                        </div>
+                        <form action="/tasks" method="POST">
+                          <div class="input-group">
+                              <label for="taskName">Task Name:</label>
+                              <input type="text" id="taskName" name="taskName" required>
+                          </div>
+                          
+                          <div class="time">
+                            <div class="input-group">
+                              <label for="hours">Hours:</label>
+                              <input type="number" id="hours" name="hours" min="0" value="0" required>
+                            </div>
+                            <div class="input-group">
+                              <label for="minutes">Minutes:</label>
+                              <input type="number" id="minutes" name="minutes" min="0" max="59" value="0" required>
+                            </div>
+                            <div class="input-group">
+                              <label for="seconds">Seconds:</label>
+                              <input type="number" id="seconds" name="seconds" min="0" max="59" value="0" required>
+                            </div>
+                          </div>
+                      
                         
-                        <div class="time">
-                            <div class="input-group">
-                                <label for="hours">Hours:</label>
-                                <input type="number" id="hours" name="hours" min="0" value="0" required>
-                            </div>
-                            <div class="input-group">
-                                <label for="minutes">Minutes:</label>
-                                <input type="number" id="minutes" name="minutes" min="0" max="59" value="0" required>
-                            </div>
-                            <div class="input-group">
-                                <label for="seconds">Seconds:</label>
-                                <input type="number" id="seconds" name="seconds" min="0" max="59" value="0" required>
-                            </div>
-                        </div>
-                    
-                        <button class="button" type="button" onclick="submitPatchForm()">Update</button>
-                    </form>
-                    
+              
+                          <div class="button-container">                              
+                              <button class="button" type="submit">Add</button>
+                          </div>
+                        </form>
                     </div>
                 </main>
             
@@ -429,47 +464,18 @@ input[type="number"] {
   
 
     <script>
-      function submitPatchForm() {
-        // Get the form element
-        var form = document.getElementById("patchForm");
-
-        // Change the method to POST before submitting
-        form.method = "POST";
-
-        // Add an event listener to submit the form using AJAX
-        form.addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            // Perform an AJAX request with the PATCH method
-            var xhr = new XMLHttpRequest();
-            xhr.open("PATCH", form.action, true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onload = function () {
-                // Handle the response as needed
-                console.log(xhr.responseText);
-            };
-            xhr.send(new URLSearchParams(new FormData(form)));
-
-            // Reset the form if necessary
-            form.reset();
-        });
-
-        // Trigger the form submission
-        form.submit();
-    }
-
         function logout() {
-          // Create a form element
           const form = document.createElement('form');
-          form.method = 'GET'; 
+          form.method = 'POST'; 
           form.action = '/users/auth/logout'; 
-    
+          form.style.display = "none";
+
           document.body.appendChild(form);
-    
+
           const submitBtn = document.createElement('input');
           submitBtn.type = 'submit';
           form.appendChild(submitBtn);
-    
+
           form.submit();
         }
 

@@ -227,14 +227,19 @@ main {
     </header>
 
     <main>
-        <aside class="sidebar">
-        <ul>
-            <li><a href="/tasks/my" class="<%= activeTab === 'my' ? 'active' : '' %>">My Tasks</a></li>
-            <li><a href="/tasks/completed" class="<%= activeTab === 'completed' ? 'active' : '' %>">Completed</a></li>
-            <li><a href="/tasks/not-completed" class="<%= activeTab === 'not-completed' ? 'active' : '' %>">Not Completed</a></li>
-            <li><a href="/logout">Logout</a></li>
-        </ul>
-        </aside>
+      <aside class="sidebar">
+        <div class="profile">
+          <img src="<%= hero.profilePic %>" id="profile-image">
+          <div><%= hero.username %></div>
+        </div>
+      <ul>
+        <li><a href="/users/dashboard">Dashboard</a></li>
+        <li><a href="/tasks/all" class="">All Tasks</a></li>
+        <li><a href="/tasks/completed" class="">Completed</a></li>
+        <li><a href="/tasks/notCompleted" class="">Not Completed</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
+      </aside>
 
         <section class="task-manager">
         <h1>Productivity Tracker</h1>

@@ -471,14 +471,18 @@ return `${hours}:${mins}:${secs}`;
     </header>
   
     <main>
-        <aside class="sidebar">
-        <ul>
-            <li><a href="/tasks/all" class="">All Tasks</a></li>
-            <li><a href="/tasks/completed" class="">Completed</a></li>
-            <li><a href="/tasks/notCompleted" class="">Not Completed</a></li>
-            <li><a href="#" onclick="logout()">Logout</a></li>
-        </ul>
-        </aside>
+      <aside class="sidebar">
+        <div class="profile">
+          <img src="<%= hero.profilePic %>" id="profile-image">
+          <div><%= hero.username %></div>
+        </div>
+      <ul>
+        <li><a href="/users/dashboard">Dashboard</a></li>
+        <li><a href="/tasks/all" class="">All Tasks</a></li>
+        <li><a href="/tasks/completed" class="">Completed</a></li>
+        <li><a href="/tasks/notCompleted" class="">Not Completed</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
 
         <section id="task-manager">
             <div class="container">

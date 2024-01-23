@@ -364,6 +364,36 @@ input[type="number"] {
     border-radius: 15px;
 }
 
+
+
+#profile-image {
+    width: 60px;
+    border-radius: 30px;
+  }
+
+  .profile {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 80px;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Make sure the body takes up the full height of the viewport */
+    background-color: rgb(212, 212, 212);
+  }
+  
+  /* .task-card {
+    
+    background:  rgb(136, 135, 135);
+  } */
+
+  .task-card.done {
+    
+    background-color: rgb(136, 135, 135);
+  }
     </style>    
     <script>
           document.addEventListener('DOMContentLoaded', function () {
@@ -389,14 +419,19 @@ input[type="number"] {
     </header>
 
     <main>
-        <aside class="sidebar">
-        <ul>
-            <li><a href="/tasks/all" class="">All Tasks</a></li>
-            <li><a href="/tasks/completed" class="">Completed</a></li>
-            <li><a href="/tasks/notCompleted" class="">Not Completed</a></li>
-            <li><a href="#" onclick="logout()">Logout</a></li>
-        </ul>
-        </aside>
+      <aside class="sidebar">
+        <div class="profile">
+          <img src="<%= hero.profilePic %>" id="profile-image">
+          <div><%= hero.username %></div>
+        </div>
+      <ul>
+        <li><a href="/users/dashboard">Dashboard</a></li>
+        <li><a href="/tasks/all" class="">All Tasks</a></li>
+        <li><a href="/tasks/completed" class="">Completed</a></li>
+        <li><a href="/tasks/notCompleted" class="">Not Completed</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
+      </aside>
 
         <section class="task-manager">
             <div id="top">
@@ -439,24 +474,26 @@ input[type="number"] {
     </main>
     <script>
         function logout() {
-          // Create a form element
-          const form = document.createElement('form');
-          form.method = 'GET'; 
-          form.action = '/users/auth/logout'; 
-    
-          document.body.appendChild(form);
-    f
-          const submitBtn = document.createElement('input');
-          submitBtn.type = 'submit';
-          form.appendChild(submitBtn);
-    
-          form.submit();
-        }
+
+        const form = document.createElement('form');
+        form.method = 'POST'; 
+        form.action = '/users/auth/logout'; 
+  
+
+        document.body.appendChild(form);
+  
+        const submitBtn = document.createElement('input');
+        submitBtn.type = 'submit';
+        form.appendChild(submitBtn);
+
+        form.submit();
+      }
 
         function cancelAddTask() {
           const form = document.createElement('form');
           form.method = 'POST'; 
           form.action = '/users/auth/logout'; 
+          form.style.display = "none";
     
           document.body.appendChild(form);
     
