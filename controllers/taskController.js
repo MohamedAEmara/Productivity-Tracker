@@ -196,7 +196,10 @@ exports.updateTask = async (req, res) => {
 exports.displayTask = async (req, res) => {
     try {
         const task = await Task.findById(req.params.taskId);
-        res.render('timer', { task });
+        const id = req.user;
+        const user = await User.findById(id);
+        
+        res.render('timer', { task, hero: user });
     } catch (err) {
         console.log(err);
         res.status(400).json({

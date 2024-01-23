@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Task = require("../models/Task");
 const emailValidator = require('email-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -193,3 +194,42 @@ exports.displayResetPassword = (req, res) => {
     res.render('resetPassword', { token });
 }
 
+
+exports.displayDashboard = async (req, res) => {
+    try {
+        const id = req.user;
+        const user = await User.findById(id);
+        const tasks = await Task.find({ user: id });
+        const completed = tasks.filter(task => {
+            return task.completed === true
+        });
+
+        let completed_time = 0;
+
+        for(let i=0; i<tasks.length; i++) {
+            let tmp = tasks[i].time - tasks[i].remainingTime;
+            console.log(tmp);
+            if(typeof tmp === 'number' && tmp !== NaN) {
+                console.log(`yes  ${tmp}`);
+                completed_time += tmp;
+            }
+            console.log(completed_time)
+        }
+        console.log('Completed TTTTTTTTTTTTTTTTTime');
+        console.log(completed_time);
+        const hours = Math.floor(completed_time / 3600);
+        const mins = Math.floor((completed_time - hours * 3600) / 60);
+        const secs = Math.floor(completed_time - hours * 3600 - 60 * mins);
+        
+        res.render('dashboard', { hero: user, cnt_completed: completed.length, cnt_not: tasks.length - completed.length, hours, mins, secs });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: 'fail',
+            message: 'Something went wrong. Please try again later.'
+        });
+    }
+
+
+}
