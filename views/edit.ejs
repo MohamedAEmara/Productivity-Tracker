@@ -204,6 +204,8 @@ header {
 .task-manager {
     margin-right: 20px;
     margin-top: 40px;
+
+    width: min(80%, 400px);
 }
 
 /* #task-container {
@@ -280,6 +282,7 @@ header {
     flex-direction: column;
 
     gap: 20px;
+  
 }
 
 .input-group {
@@ -309,7 +312,7 @@ header {
 section.task-manager {
     display: block !important;
     margin: auto !important;
-    width: min(90%, 340px) !important; /* Optional: Specify the width of the element */
+    /* width: min(90%, 340px) !important; Optional: Specify the width of the element */
     margin-top: max(20%, 200px) !important;
 }
 
@@ -337,12 +340,13 @@ form {
 
 .time {
   display: flex;
-  gap: 8px;
+  /* gap: 8px; */
+  justify-content: space-between;
 }
 
 input[type="number"] {
-  width: 40px;
-
+  width: 22px;
+  text-align: center;
 }
 
 .time > * {
@@ -361,7 +365,7 @@ input[type="number"] {
     padding-right: 20px;
     font-size: 15px;
     font-weight: 500;
-    border-radius: 15px;
+  
 }
 
 
@@ -369,21 +373,21 @@ input[type="number"] {
 #profile-image {
     width: 60px;
     border-radius: 30px;
-  }
+}
 
-  .profile {
-    display: flex;
-    align-items: flex-end;
-    gap: 10px;
-    margin-bottom: 80px;
-  }
+.profile {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 80px;
+}
 
-  body {
+body {
     margin: 0;
     padding: 0;
     height: 100vh; /* Make sure the body takes up the full height of the viewport */
-    background-color: rgb(212, 212, 212);
-  }
+    background-color: #000;
+}
   
   /* .task-card {
     
@@ -394,6 +398,8 @@ input[type="number"] {
     
     background-color: rgb(136, 135, 135);
   }
+
+
     </style>    
     <script>
           document.addEventListener('DOMContentLoaded', function () {
@@ -437,7 +443,7 @@ input[type="number"] {
 
         <section class="task-manager">
             <div id="top">
-              <h2>Add Task</h2>
+              <h2>Edit Task</h2>
               <a class="cancel" href="/tasks/all"><button class="cancelBtn">x</button></a>
             </div>
                 <main>
@@ -455,16 +461,16 @@ input[type="number"] {
                               <input type="number" id="hours" name="hours" min="0" value="<%= hours %>" required>
                             </div>
                             <div class="input-group">
-                              <label for="minutes">Minutes:</label>
+                              <label for="minutes">Mins:</label>
                               <input type="number" id="minutes" name="minutes" min="0" max="59" value = "<%= mins %>" required>
                             </div>
                             <div class="input-group">
-                              <label for="seconds">secs:</label>
+                              <label for="seconds">Secs:</label>
                               <input type="number" id="seconds" name="seconds" min="0" max="59" value="<%= secs %>" required>
                             </div>
                           </div>
                       
-                          <button type="submit" id="edit-btn">Edit</button>
+                          <button type="submit" class="button" id="edit-btn">Edit</button>
               
                         </form>
                         

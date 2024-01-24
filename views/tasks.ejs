@@ -66,7 +66,7 @@ main {
 .task-manager {
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
   padding: 20px;
   flex: 1;
   margin-left: 20px;
@@ -185,11 +185,12 @@ main {
 
 .sidebar.visible {
   transform: translateX(0); 
+  height: 100%;
 }
 .task-manager {
-  background-color: #fff;
+  background-color: #0c0c0c;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
   padding: 20px;
   flex: 1;
   margin-left: 20px;
@@ -207,14 +208,20 @@ main {
 
 #task-container {
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 40px;
 }
 
+h1 {
+  padding-bottom: 20px;
+}
 .task-card {
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
+  background-color: #404040;
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  border-radius: 15px;
   padding: 20px;
   width: 200px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -227,30 +234,25 @@ main {
   transform: translateY(-5px);
 }
 
-.done {
-  /* color: #2ecc71;  */
-}
-
-.not-done {
-  /* color: #e74c3c;  */
-}
-
 .button-container {
-  margin-top: auto;
+  /* margin-top: auto; */
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .button {
   background-color: #3498db; 
   color: #ffffff;
-  padding: 8px 12px;
+  /* padding: 8px 12px; */
   border: none;
-  border-radius: 4px;
+  border-radius: 12px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
+button {
+  border: 0px solid;
+}
 .button:hover {
   background-color: #2980b9; 
 }
@@ -269,31 +271,33 @@ header {
 }
 
 form#delete-form {
-  border-radius: 30px;
+  border-radius: 15px;
   background-color: white;
 }
 .red {
-  background-color: rgb(161, 61, 61);
-  padding: 7px;
+  background-color: rgb(255, 255, 255);
+  /* padding: 7px; */
   font-size: 16px;
   font-weight: 500;
   color: white;
-  border-radius: 12px;
+  border-radius: 15px;
   box-shadow: 0px 0px 15px #888888;
   /* width: 30%; */
-
+  color: black;
+  padding: 8px;
 }
 
 .blue {
-  padding: 7px;
-  border-radius: 12px;
-  background-color: #3498db;
-  background-color: rgb(52, 219, 80);
-  font-size: 16px;
+  color: black;
+  /* padding: 7px; */
+  border-radius: 15px;
+  background-color: rgb(255, 255, 255);
+  font-size: 16px;rgb(255, 255, 255);
   font-weight: 500;
   /* width: 2rem; */
   /* color: white; */
   box-shadow: 0px 0px 15px #888888;
+  padding: 8px;
 }
 
 button:hover{
@@ -304,14 +308,18 @@ button:hover{
 }
 
 .task-card {
-  box-shadow: 0px 0px 15px #888888;
+  /* box-shadow: 0px 0px 15px #888888; */
+  background-color: hsl(0, 0%, 20%);
+  color: #ffffff;
 }
 
 .button-container {
   display: flex;
   /* justify-content: end; */
   /* gap: 8px; */
-  justify-content: space-between;
+  justify-content: center;
+  gap: 20px;
+  /* padding-left: 0px; */
 }
   #toggle-sidebar-btn {
     padding: 5px 10px;
@@ -321,7 +329,7 @@ button:hover{
 
   #profile-image {
     width: 60px;
-    border-radius: 30px;
+    border-radius: 15px;
   }
 
   .profile {
@@ -335,9 +343,16 @@ button:hover{
     margin: 0;
     padding: 0;
     height: 100vh; /* Make sure the body takes up the full height of the viewport */
-    background-color: rgb(212, 212, 212);
+    background-color: #0c0c0c;
+  }
+
+  .task-manager {
+    background-color: #0c0c0c;
   }
   
+  .delete-button {
+    border-radius: 15px;
+  }
   /* .task-card {
     
     background:  rgb(136, 135, 135);
@@ -345,9 +360,14 @@ button:hover{
 
   .task-card.done {
     
-    background-color: rgb(136, 135, 135);
+    /* background-color: rgb(136, 135, 135); */
+    background-color: hsl(0, 0%, 20%);
   }
   
+  h1 {
+    color: white;
+  }
+
 
     </style>    
     <script>
@@ -392,31 +412,45 @@ button:hover{
 
         <section class="task-manager">
         <h1><%=page%></h1>
-            <div id="task-container">
-              <% tasks.forEach(task => { %>
-                <div class="task-card <%= task.completed ? 'done' : 'not-done' %>">
-                  <h3><%= task.name %></h3>
-                  <p>Task Time: <%= task.time %></p>
-                  <p>Time Remaining: <%= task.remainingTime %></p>
-                  <p>Status: <%= task.completed? 'Done' : 'Not Done' %></p>
-                  <div class="button-container">
-                    <form action="/tasks/<%= task._id %>" method="POST" id="delete-form" class="button delete-button">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <button type="submit" class="red">Delete</button>
-                    </form>
-                    <form action="/tasks/<%= task._id %>" method="GET" id="delete-form" class="button delete-button">
-                      <button class="blue" style="<%= task.completed ? 'display:none;' : '' %>">Start</button>
-                    </form>
-                    <form action="/tasks/<%= task._id %>" method="POST" id="delete-form" class="button delete-button">
-                      <input type="hidden" name="_method" value="PATCH">
-                      <button type="submit" class="red">Edit</button>
-                    </form>
-                  </div>
-
-                
+        <div id="task-container">
+          <% tasks.forEach(task => { %>
+            <div class="task-card <%= task.completed ? 'done' : 'not-done' %>">
+              <h3><%= task.name %></h3>
+              <p>Task Time: <%= task.time %></p>
+              <p>Time Remaining: <%= task.remainingTime %></p>
+              <p>Status: <%= task.completed ? 'Done' : 'In Progress' %></p>
+              
+              <% if (!task.completed) { %>
+                <div class="button-container">
+                  <form action="/tasks/<%= task._id %>" method="GET" class="button delete-button">
+                    <button class="blue">Start</button>
+                  </form>
+                  <form action="/tasks/<%= task._id %>" method="POST" class="button delete-button">
+                    <input type="hidden" name="_method" value="PATCH">
+                    <button type="submit" class="red">Edit</button>
+                  </form>
+                  <form action="/tasks/<%= task._id %>" method="POST" class="button delete-button">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="red">Delete</button>
+                  </form>
                 </div>
-              <% }); %>
+              <% } else { %>
+                <div class="button-container">
+                  <form action="/tasks/<%= task._id %>" method="POST" class="button delete-button">
+                    <input type="hidden" name="_method" value="PATCH">
+                    <button type="submit" class="red">Edit</button>
+                  </form>
+                  <form action="/tasks/<%= task._id %>" method="POST" class="button delete-button">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="red">Delete</button>
+                  </form>
+                </div>
+              <% } %>
+        
+            
             </div>
+          <% }); %>
+        </div>
         </section>
     </main>
   

@@ -13,7 +13,7 @@ taskRouter
     .route('/')
     .post(isAuthenticated, createTask)
     
-taskRouter.patch('/:taskId/update', editTask);
+taskRouter.patch('/:taskId/update', isAuthenticated, editTask);
 
 taskRouter
     .route('/:taskId')

@@ -180,6 +180,7 @@ exports.updateTask = async (req, res) => {
         console.log('xxxxxxxxxxxxxxxxxxxxxxxxxx');
         const id = req.user;
         const user = await User.findById(id);
+        console.log(user);
 
         console.log(hours, mins, secs);
         res.render('edit', { task: task, hours, mins, secs, hero: user });

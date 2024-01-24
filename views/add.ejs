@@ -307,10 +307,12 @@ header {
 }
 
 section.task-manager {
+
     display: block !important;
     margin: auto !important;
-    width: min(90%, 340px) !important; /* Optional: Specify the width of the element */
+    /* width: min(90%, 340px) !important; Optional: Specify the width of the element */
     margin-top: max(20%, 200px) !important;
+    width: min(80%, 400px) !important;
 }
 
 #top {
@@ -318,7 +320,7 @@ section.task-manager {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 40px;
 }
 
 form {
@@ -337,7 +339,8 @@ form {
 
 .time {
   display: flex;
-  gap: 8px;
+  justify-content: space-between;
+
 }
 
 input[type="number"] {
@@ -370,8 +373,25 @@ input[type="number"] {
     padding: 0;
     height: 100vh; /* Make sure the body takes up the full height of the viewport */
     background-color: rgb(212, 212, 212);
+    background-color: #000;
   }
+
+  #profile-image {
+    width: 60px;
+    border-radius: 30px;
+}
+
+.profile {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 80px;
+}
   
+input[type="number"] {
+  width: 22px;
+  text-align: center;
+}
   /* .task-card {
     
     background:  rgb(136, 135, 135);
@@ -442,11 +462,11 @@ input[type="number"] {
                               <input type="number" id="hours" name="hours" min="0" value="0" required>
                             </div>
                             <div class="input-group">
-                              <label for="minutes">Minutes:</label>
+                              <label for="minutes">Mins:</label>
                               <input type="number" id="minutes" name="minutes" min="0" max="59" value="0" required>
                             </div>
                             <div class="input-group">
-                              <label for="seconds">Seconds:</label>
+                              <label for="seconds">Secs:</label>
                               <input type="number" id="seconds" name="seconds" min="0" max="59" value="0" required>
                             </div>
                           </div>
