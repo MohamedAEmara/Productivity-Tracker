@@ -321,6 +321,8 @@ button:hover{
   #toggle-sidebar-btn {
     padding: 5px 10px;
     font-size: 15px;
+    color: black !important;
+    font-weight: 800;
   }
 
 
@@ -354,8 +356,10 @@ button:hover{
   .completed, .not, .time {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 10%;
+    padding-right: min(200px, 5%);
+    padding-left: min(200px, 5%);
   }
 
   .seven-seg {
@@ -364,6 +368,19 @@ button:hover{
     font-weight: 800;
   }
 
+  body {
+    background-color: black;
+  }
+
+  .task-manager {
+    background-color: #333333;
+    margin-left: 60px;
+    margin-right: 60px;
+  }
+
+  * {
+    color: white !important;
+  }
     </style>    
     <script>
           document.addEventListener('DOMContentLoaded', function () {
@@ -417,7 +434,7 @@ button:hover{
             </div>
             <div class="time">
                 <h2>Productivity Time: </h2>
-                <h3 class="seven-seg"><%= hours %> : <%= mins %> : <%= secs %></h3>
+                <h3 class="seven-seg"><%= hours %> : <%= mins %> </h3>
             </div>
         </section>
     </main>

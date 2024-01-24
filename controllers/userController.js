@@ -68,7 +68,9 @@ exports.loginUser = async (req, res) => {
             // Check if this user is verified.
             if(user.isVerified) {
                 createAndSendToken(user, 200, res);
-                res.status(200).send("You logged in successfully :)");
+                const tasks = await Task.find({ user: user._id });
+                // res.status(200).send("You logged in successfully :)");
+                res.render('tasks', { hero: user, page: 'All Tasks', tasks});
             } else {
                 res.status(401).json({
                     error: 'fail',
@@ -96,9 +98,11 @@ exports.uploadImage = async (req, res) => {
         const id = req.file.filename.split(".")[0]; 
         const url = await cloudinaryUpload(req.file.path, id);
         console.log(req.user);
-        const user = await User.findOneAndUpdate({ _id: req.user }, { profilePic: url });
+        await User.findOneAndUpdate({ _id: req.user }, { profilePic: url });
+        const user = await User.findOne({ _id: id });
         console.log(user);
-        res.send('File uploaded successfully!');
+        // res.send('File uploaded successfully!');
+        res.render('profile', { hero: user });
     } else {
         res.status(400).send('No file selected.');
     }
@@ -120,21 +124,38 @@ exports.logout = async (req, res) => {
 
 
 exports.updatePassword = async (req, res) => {
-    const id = req.user;
-    const user = await User.findOne({_id: id});
-    const oldPassword = req.body.oldPassword;
-    const newPassword = req.body.confirmPassword;
-    const currPassword = user.password;
-    const correctPassword = await bcrypt.compare(oldPassword, currPassword);
+    try {
+        const id = req.user;
+        const user = await User.findOne({_id: id});
+        const oldPassword = req.body.oldPassword;
+        const newPassword = req.body.confirmPassword;
+        const currPassword = user.password;
+        console.log(oldPassword);
+        console.log(newPassword);
+        console.log(currPassword);
+        const correctPassword = await bcrypt.compare(oldPassword, currPassword);
+        
+        if(!correctPassword) {
+            return res.status(400).send({
+                status: 'fail',
+                message: 'You current password is not correct!!'
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, parseInt(process.env.HASH_LENGTH));
     
-    if(!correctPassword) {
-        res.status(400).send({
-            status: 'fail',
-            message: 'You current password is not correct!!'
+        await User.findOneAndUpdate({ _id: id }, { password: hashedPassword });
+        logoutUser(user, 200, res);
+
+        res.render('login');
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: 'fail', 
+            message: 'Something went wrong. Please try again later.'
         });
     }
-
-    await User.findOneAndUpdate({ _id: id }, { password: newPassword });
 }
 
 
