@@ -7,6 +7,7 @@ const { verifyToken, isAuthorized } = require('../controllers/authController');
 const { resendActivation, logoutUser } = require('../controllers/authController');
 const { uploadImage } = require('../utils/upload');
 const { isAuthenticated } = require('../middlewares/isAuthenticated');
+const { showProfile } = require('../controllers/taskController');
 
 router.get('/signup', (req, res) => {
     res.render('signup');
@@ -53,4 +54,6 @@ router.get('/dashboard', isAuthenticated, displayDashboard);
 router.get('/resetPassword/:token', displayResetPassword);
 
 router.post('/resetPassword/:token', updatePassword2); 
+
+router.get('/profile', isAuthenticated, showProfile);
 module.exports = router;

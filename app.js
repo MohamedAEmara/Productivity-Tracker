@@ -49,7 +49,7 @@ const storage = multer.diskStorage({
 
 const { isAuthorized } = require('./controllers/authController.js');
 const Task = require('./models/Task.js');
-const { showProfile } = require('./controllers/taskController.js');
+const { showProfile, displayMain } = require('./controllers/taskController.js');
 const { isAuthenticated } = require('./middlewares/isAuthenticated.js');
 
 // Route for uploading a single image (locally)..
@@ -80,12 +80,13 @@ io.on('connection', (socket) => {
   
 });
 
+app.get('/', displayMain);
 
 app.get('/haha', (req, res) => {
   res.render('enter-your-mail');
 });
 
-const port = process.env.PORT || 8080;
+const port = 8080;
 
 httpServer.listen(port, async () => {
   try {

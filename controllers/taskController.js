@@ -1,6 +1,6 @@
 const Task = require("../models/Task")
 const User = require("../models/User")
-
+const jwt = require('jsonwebtoken');
 
 
 exports.showAllTasks = async (req, res) => {
@@ -249,7 +249,9 @@ exports.showProfile = async (req, res) => {
     try {
         // const tasks = await Task.find({ user: req.user });
         // console.log(tasks);
-        res.render('profile', { hero: req.hero });
+        const id = req.user;
+        const user = await User.findById(id);
+        res.render('profile', { hero: user });
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -259,3 +261,27 @@ exports.showProfile = async (req, res) => {
     }
 }
 
+
+
+exports.displayMain = async (req, res) => {
+    try {
+        const token = req.cookies.jwt;
+        console.log(token);
+        const tmp = (jwt.decode(token, process.env.JWT_SECRET));
+        console.log(tmp);
+        if(tmp.exp <= Math.floor(Date.now() / 1000)) {
+            res.render('welcome');
+        } else {
+            req.user = tmp.id;
+            const tasks = await Task.find({ user: req.user });
+            const hero = await User.findById(req.user);
+            res.render('tasks', { hero, tasks, page: 'All Tasks' });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: 'fail',
+            message: 'Something went wrong. Please try again later'
+        });
+    }
+}

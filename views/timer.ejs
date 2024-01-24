@@ -732,10 +732,12 @@ return `${hours}:${mins}:${secs}`;
   
     <main>
       <aside class="sidebar">
-        <div class="profile">
-          <img src="<%= hero.profilePic %>" id="profile-image">
-          <div><%= hero.username %></div>
-        </div>
+        <a href="/users/profile">
+          <div class="profile">
+            <img src="<%= hero.profilePic %>" id="profile-image">
+            <div><%= hero.username %></div>
+          </div>
+        </a>
       <ul>
         <li><a href="/users/dashboard">Dashboard</a></li>
         <li><a href="/tasks/all" class="">All Tasks</a></li>
