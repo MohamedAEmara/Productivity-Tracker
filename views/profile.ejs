@@ -203,6 +203,7 @@ main {
 .task-manager {
     margin-right: 20px;
     margin-top: 40px;
+    background-color: #333;
 }
 
 #task-container {
@@ -227,12 +228,8 @@ main {
   transform: translateY(-5px);
 }
 
-.done {
-  /* color: #2ecc71;  */
-}
-
-.not-done {
-  /* color: #e74c3c;  */
+*body {
+  color: white !important;
 }
 
 .button-container {
@@ -339,21 +336,72 @@ button:hover{
     margin: 0;
     padding: 0;
     height: 100vh; /* Make sure the body takes up the full height of the viewport */
-    background-color: rgb(212, 212, 212);
+    background-color: black;
+    color: white !important;
   }
   
-
-  /* .task-card {
-    
-    background:  rgb(136, 135, 135);
-  } */
 
   .task-card.done {
     
     background-color: rgb(136, 135, 135);
   }
   
+  .profile-image {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5%;
+  }
 
+  .separator {
+    border-top: px solid white; /* You can adjust the color and thickness */
+    /* margin: 20px 0; Adjust the margin for spacing */
+}
+
+  .separator::after {
+    content: "";
+    display: block;
+    border-bottom: 2px solid white; /* You can adjust the color and thickness */
+    margin: 0; /* Adjust the margin for spacing */
+    margin: 50px 20%;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+  }
+  .change-image-btn {
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 20px;
+    border: 0;
+    outline: none;
+  }
+
+  .change-email, .change-username, .change-password {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+  }
+
+  .changes {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .save {
+    padding: 10px;
+    border-radius: 20px;
+    align-self: center;
+    border: 0;
+    font-weight: 600;
+  }
+
+  input {
+    text-align: center;
+  }
     </style>    
     <script>
           document.addEventListener('DOMContentLoaded', function () {
@@ -399,25 +447,30 @@ button:hover{
         <h1>Edit Profile</h1>
             <div class="profile-image">
                 <img src="<%= hero.profilePic %>" id="profile-image-large">
-                <button><a href="/users/upload">Change Image</a></button>
+                <button class="change-image-btn"><a href="/users/upload">Change</a></button>
             </div>
             
+            <div class="separator"></div>
             
-            <div class="change-username">
+            <div class="changes">
+              <div class="change-username">
                 <label for="username">Username</label>
-                <div class="username"><%= hero.username %> </div>
+                <input type="text" class="username" value="<%= hero.username %>">
             </div>
 
-            <div class="email">
-                Email: <%= hero.email %>
+            <div class="change-email">
+              <label for="email">Email</label>
+              <input type="text" value="<%= hero.email %>" readonly>
             </div>
             
             
             <div class="change-password">
                 Password:
-                <a href="/users/changePassword"> Change Password</a> 
+                <a href="/users/changePassword" style="color: white; font-weight: 600;"> Change Password</a> 
             </div>
 
+            <button class="save">Save</button>
+            </div>
         </section>
     </main>
   
