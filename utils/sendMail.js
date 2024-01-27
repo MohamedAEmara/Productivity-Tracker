@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
-dotenv.config({ path:'./config/.env'});
+dotenv.config({ path:'./.env'});
 
 const html = `
     <h1>Hello, there</h1>

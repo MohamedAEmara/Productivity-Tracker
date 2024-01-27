@@ -4,7 +4,7 @@ const httpServer = require('http').createServer(app); // Create an HTTP server
 const io = require('socket.io')(httpServer); // Integrate Socket.io with the HTTP server
 
 const dotenv = require('dotenv');
-dotenv.config({ path: './config/.env' });
+dotenv.config({ path: './.env' });
 const cookieParser = require('cookie-parser');
 const ejs = require('ejs');
 

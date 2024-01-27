@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const emailValidator = require('email-validator');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
-dotenv.config({ path: './config/.env' });
+dotenv.config({ path: './.env' });
 
 
 const isUserName = function(username) {

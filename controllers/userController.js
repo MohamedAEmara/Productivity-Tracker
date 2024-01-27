@@ -8,7 +8,7 @@ const { createAndSendToken, logoutUser } = require('./authController');
 const { createAndSendVerificationEmail, createAndSendResetPassword } = require("../utils/sendVerification");
 const { cloudinaryUpload } = require("../utils/uploadToDrive");
 const dotenv = require('dotenv');
-dotenv.config({path: "./config/.env"});
+dotenv.config({path: "./.env"});
 
 exports.signupUser = async (req, res) => {
     try {
