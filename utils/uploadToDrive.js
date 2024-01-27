@@ -1,22 +1,22 @@
 const fs = require('fs');
 const { google } = require('googleapis');
-const apikeys = require('../config/apikey.json');
+// const apikeys = require('../config/apikey.json');
 const User = require('../models/User');
 
 const SCOPE = ["https://www.googleapis.com/auth/drive"];
 
-async function authorize() {
-    const jwtClient = new google.auth.JWT(
-        apikeys.client_email,
-        null,
-        apikeys.private_key,
-        SCOPE
-    );
+// async function authorize() {
+//     const jwtClient = new google.auth.JWT(
+//         apikeys.client_email,
+//         null,
+//         apikeys.private_key,
+//         SCOPE
+//     );
 
-    await jwtClient.authorize();
+//     await jwtClient.authorize();
 
-    return jwtClient;
-}
+//     return jwtClient;
+// }
 
 const uploadFile = async (authClient, filePath) => {
     return new Promise((resolve, reject) => {
