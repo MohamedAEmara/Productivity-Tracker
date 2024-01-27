@@ -17,7 +17,7 @@
 header {
   background-color: #333;
   color: #fff;
-  padding: 1em;
+  /* padding: 1em; */
 }
 
 nav ul {
@@ -139,7 +139,7 @@ header {
     text-align: center;
     background-color: #333;
     color: #fff;
-    padding: 1em;
+    /* padding: 1em; */
     position: fixed;
     width: 100%; 
     top: 0;
@@ -239,17 +239,17 @@ main {
 }
 
 header {
-  display: flex;
+  /* display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6em;
+  gap: 6em; */
   padding-top: 0;
   padding-bottom: 0;
 }
 
-.logo {
+/* .logo {
   margin-right: 50%;
-}
+} */
 
 
 .red {
@@ -257,7 +257,7 @@ header {
   padding: 7px;
   font-size: 16px;
   font-weight: 500;
-  color: white;
+  color: black;
   border-radius: 12px;
   box-shadow: 0px 0px 15px #888888;
   /* width: 30%; */
@@ -300,6 +300,7 @@ button:hover{
     display: flex;
     width: 300px;
     padding: 50px 0;
+    padding-bottom: 30px;
     background-color: #fff;
     border-radius: 8px;
     flex-direction: column;
@@ -308,6 +309,7 @@ button:hover{
 }
 
 .circular-progress {
+  color: #000;
     position: relative;
     display: flex;
     justify-content: center;
@@ -315,15 +317,16 @@ button:hover{
     width: 250px;
     height: 250px;
     border-radius: 50%;
-    background: conic-gradient(black 3.6deg, #ededed 0deg);
+    /* background: conic-gradient(white 3.6deg, #000 0deg); */
+    /* background-color: conic-gradient(black 3.6deg, #fff 0deg); */
 }
 
 .circular-progress::before {
     content: "";
     position: absolute;
-    width: 210px;
-    height: 210px;
-    background-color: gray;
+    width: 225px;
+    height: 225px;
+    background-color: black;
     border-radius: 50%;
 }
 
@@ -331,7 +334,7 @@ button:hover{
     position: relative;
     font-size: 40px;
     font-weight: 600;
-    color: black;
+    color: #fff;
 }
 
 .text {
@@ -343,8 +346,8 @@ button:hover{
 
 .container {
 
-    background-color: #3498db;
-            color: #fff;
+    background-color: #333;
+            /* color: white; */
             border-radius: 15px;
       
 }
@@ -381,18 +384,27 @@ button:hover{
 }
 
 #start-timer {
-  background-color: green;
+  background-color: #000;
+  border: 0;
+  color: #fff;
 }
 
 #stop-timer {
-  background-color: red;
+  background-color: #000;
+  border: 0;
+  color: #fff;
 }
 
 button:disabled {
-  background-color: gray !important;
+  /* background-color: gray !important; */
   cursor:wait !important;
+  background-color: #333 !important;
+  background-color: #333;
 }
 
+#stop-timer:enabled, #start-timer:enabled {
+  background-color: #000;
+}
 .sidebar {
   background-color: #333;
   color: #fff;
@@ -408,13 +420,14 @@ button:disabled {
   transform: translateX(0); 
 }
 #task-manager {
-  background-color: #fff;
+  background-color: #333;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   flex: 1;
   margin-left: 20px;
   transition: margin-left 0.3s ease-in-out; 
+  width: min(340px, 75%);
 }
 
 
@@ -422,7 +435,7 @@ button:disabled {
 header {
   background-color: #333;
   color: #fff;
-  padding: 1em;
+  /* padding: 1em; */
 }
 
 nav ul {
@@ -545,8 +558,8 @@ header {
     color: #fff;
     padding: 1em;
     position: fixed;
-    /* width: 100%; */
     top: 0;
+    width: 100%;
     z-index: 1000;
 }
 
@@ -629,22 +642,23 @@ main {
 }
 
 header {
-  display: flex;
+  /* display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6em;
+  gap: 6em; */
   padding-top: 0;
   padding-bottom: 0;
 }
 
-.logo {
-  margin-right: 50%;
-}
+/* .logo {
+  width: 100%;
+  text-align: center;
+} */
 
 
 form#delete-form {
   border-radius: 30px;
-  background-color: white;
+  background-color: black;
 }
 
 
@@ -668,6 +682,15 @@ button:hover{
   #toggle-sidebar-btn {
     padding: 5px 10px;
     font-size: 15px;
+    background-color: white !important;
+    color: black !important;
+    border: 0;
+
+    position: fixed;
+  top: 18px;
+  left: 18px;
+    /* border-radius: 40px;
+    font-weight: 800; */
   }
 
 aside {
@@ -690,7 +713,7 @@ aside {
     margin: 0;
     padding: 0;
     height: 100vh; /* Make sure the body takes up the full height of the viewport */
-    background-color: rgb(212, 212, 212);
+    /* background-color: rgb(212, 212, 212); */
   }
   
   /* .task-card {
@@ -703,6 +726,39 @@ aside {
     background-color: rgb(136, 135, 135);
   }
   
+  body {
+    background-color: #000;
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+
+  * {
+    color: #fff !important;
+  }
+
+  header {
+    /* width: 100% !important; */
+    /* width: 100vh !important; */
+  }
+
+  .txt {
+    /* padding-right: 5vw; */
+    width: fit-content;
+    padding-right: 35px;
+  }
+
+  .logo {
+    width: 100%; /* Ensures the container spans the full width of its parent */
+    /* height: 200px; Set height for demonstration */
+    display: flex;
+    justify-content: center; /* Centers the element horizontally */
+}
+
+.txt {
+    /* width: calc(30vw); 40% of the viewport width minus any necessary margin/padding */
+    /* height: 100px; Set height for demonstration */
+    /* background-color: blue; Just for visualization */
+}
 </style>
 <script>
   function toTime(timeSec) {
@@ -725,9 +781,11 @@ return `${hours}:${mins}:${secs}`;
 </head>
 <body>
 
-    <header>
-        <button id="toggle-sidebar-btn">&#9776;</button>
-        <h3 class="logo">Productivity Tracker</h3>
+  <header>
+      <button id="toggle-sidebar-btn">&#9776;</button>
+        <h3 class="logo">
+          <div class="txt">Productivity Tracker</div>
+        </h3>
     </header>
   
     <main>
@@ -748,14 +806,15 @@ return `${hours}:${mins}:${secs}`;
       </aside>
         <section id="task-manager">
             <div class="container">
+              <span class="text">Time Remaining</span>
                 <div class="circular-progress">
                   <span class="progress-value"></span>
                 </div>
-                <span class="text">Time Remaining</span>
+              <span class="text">Task One</span>
             </div>
             <div class="buttons">
               <button id="start-timer">Start</button>
-              <button id="stop-timer">Stop</button>
+              <button id="stop-timer" disabled>Stop</button>
             </div>
         </section>
         
@@ -856,13 +915,14 @@ return `${hours}:${mins}:${secs}`;
         function startTask () {
             intervalId = setInterval(() => {
               if(running) {
+                console.log(running);
+                progressValue.textContent = `${toTime(remaining)}`;
+                circularProgress.style.background = `conic-gradient(#fff ${(progressStartValue / originalValue)*100 * 3.6}deg, #000 0deg)`
+                
                 progressStartValue ++;
                 remaining = originalValue - progressStartValue;
       
-                progressValue.textContent = `${toTime(remaining)}`;
-      
-                circularProgress.style.background = `conic-gradient(#000000 ${(progressStartValue / originalValue)*100 * 3.6}deg, #ededed 0deg)`
-                if(progressStartValue == progressEndValue) {
+                if(remaining < -1) {
                     clearInterval(progress);
                 }
                   console.log(progressStartValue);
@@ -879,15 +939,15 @@ return `${hours}:${mins}:${secs}`;
           
           const intervalId = setInterval(() => {
             if (1) {
+              progressValue.textContent = `${toTime(remaining)}`;
+    
+              circularProgress.style.background = `conic-gradient(#fff ${(progressStartValue / originalValue)*100 * 3.6}deg, #000 0deg)`
               progressStartValue ++;
-                remaining = originalValue - progressStartValue;
-      
-                progressValue.textContent = `${toTime(remaining)}`;
-      
-                circularProgress.style.background = `conic-gradient(#000000 ${(progressStartValue / originalValue)*100 * 3.6}deg, #ededed 0deg)`
-                if(progressStartValue == progressEndValue) {
-                    clearInterval(progress);
-                }
+              remaining = originalValue - progressStartValue;
+    
+              if(remaining < -1) {
+                  clearInterval(progress);
+              }
             }
           }, 1);
 
