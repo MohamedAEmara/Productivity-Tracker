@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const { createAndSendToken, logoutUser } = require('./authController');
 const { createAndSendVerificationEmail, createAndSendResetPassword } = require("../utils/sendVerification");
-const { uploadToDrive, cloudinaryUpload, uploadFile } = require("../utils/uploadToDrive");
+const { cloudinaryUpload } = require("../utils/uploadToDrive");
 const dotenv = require('dotenv');
 dotenv.config({path: "./config/.env"});
 
