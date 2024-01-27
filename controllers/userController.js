@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const { createAndSendToken, logoutUser } = require('./authController');
 const { createAndSendVerificationEmail, createAndSendResetPassword } = require("../utils/sendVerification");
-const { uploadToDrive, cloudinaryUpload } = require("../utils/uploadToDrive");
+const { uploadToDrive, cloudinaryUpload, uploadFile } = require("../utils/uploadToDrive");
 const dotenv = require('dotenv');
 dotenv.config({path: "./config/.env"});
 
@@ -91,20 +91,28 @@ exports.loginUser = async (req, res) => {
 
 
 exports.uploadImage = async (req, res) => {
-    if (req.file) {
-        console.log(req.file);
-        console.log('=-=-=-=--=-=-=-=-=');
-        // uploadToDrive(req.file)
-        const id = req.file.filename.split(".")[0]; 
-        const url = await cloudinaryUpload(req.file.path, id);
-        console.log(req.user);
-        await User.findOneAndUpdate({ _id: req.user }, { profilePic: url });
-        const user = await User.findOne({ _id: id });
-        console.log(user);
-        // res.send('File uploaded successfully!');
-        res.render('profile', { hero: user });
-    } else {
-        res.status(400).send('No file selected.');
+    try {
+        if (req.file) {
+            console.log(req.file);
+            console.log('=-=-=-=--=-=-=-=-=');
+            // uploadToDrive(req.file)
+            const id = req.file.filename.split(".")[0]; 
+            const url = await cloudinaryUpload(req.file.path, req.user);
+            console.log(req.user);
+            await User.findOneAndUpdate({ _id: req.user }, { profilePic: url });
+            const user = await User.findOne({ _id: id });
+            console.log(user);
+            // res.send('File uploaded successfully!');
+            res.render('profile', { hero: user });
+        } else {
+            res.status(400).send('No file selected.');
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: 'fail', 
+            message: 'Something went wrong. Please try again later!'
+        });
     }
 };
 

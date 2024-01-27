@@ -84,7 +84,8 @@ console.log(process.env.CLOUDINARY_API_KEY);
 
 exports.cloudinaryUpload = async(file, id) => {
     const img = await cloudinary.uploader.upload(file, {
-        public_id: id
+        public_id: id,
+        timeout: 10000
     },
     function(error, result) {console.log(result); });
     console.log(img);
