@@ -8,7 +8,7 @@
         
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
+            background-color: #000;
             margin: 0;
             padding: 0;
             display: flex;
@@ -18,16 +18,25 @@
         }
 
         form {
-            background-color: #fff;
+            background-color: #333;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            width: 450px;
+            width: min(450px, 80%);
             text-align: center;
+        }
+
+        * {
+            color: white !important;
+        }
+
+        input {
+            color: black !important;
         }
 
         h1 {
             color: #333;
+            margin-bottom: 35px;
         }
 
         label {
@@ -37,7 +46,6 @@
         }
 
         input {
-            width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             box-sizing: border-box;
@@ -67,8 +75,20 @@
         }
 
         input[type="text"], input[type="password"], input[type="email"], input[type="file"]{
-            width: 265px;
+            width: min(55vw, 265px);
         }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10%;
+            align-items: center;
+        }
+
+        input {
+            color: black !important;
+        }
+
     </style>
 </head>
 <body>
@@ -91,7 +111,10 @@
             <input type="password" id="confirmPassword" name="confirmPassword" required>
         </div>
         
-        <button type="submit">Register</button>
+        <div class="buttons">
+            <button type="submit">Register</button>
+            <a href="/users/login" style=" margin-left: 10px; font-size: 17px; font-weight: 7;">login?</a>
+        </div>
     </form>
 </body>
 </html>

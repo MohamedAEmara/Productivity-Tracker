@@ -21,7 +21,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            width: 450px;
+            width: min(450px, 80%);
             text-align: center;
         }
 
@@ -66,13 +66,14 @@
         }
 
         input[type="text"], input[type="password"], input[type="email"]{
-            width: 265px;
+            width: min(55vw, 265px);
         }
 
         .buttons {
             display: flex;
             justify-content: space-around;
             margin-bottom: 10px;
+            margin-top: 10px;
         }
 
         .red {
@@ -95,6 +96,19 @@
         * {
             color: white !important;
         }
+
+        input {
+            color: black !important;
+        }
+
+        h1 {
+            margin-bottom: 35px;
+        }
+
+        input {
+            color: black !important;
+        }
+
     </style>
 </head>
 <body>
@@ -112,7 +126,7 @@
             <button type="submit">Login</button>
             <a href="/users/enterYourMail" ><button type="button" class="red">Forgot Password?</button></a>
         </div>
-        <a href="/users/signup" style="font-size: 17px; font-weight: 7  00;">Register?</a>
+        <a href="/users/signup" style="font-size: 17px; font-weight: 7;">Register?</a>
     </form>
 </body>
 </html>

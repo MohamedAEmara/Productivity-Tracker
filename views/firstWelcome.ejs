@@ -7,8 +7,8 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
+            background-color: #000;
+            color: white;
             text-align: center;
             padding: 50px;
         }
@@ -43,6 +43,10 @@
         a.button:hover {
             background-color: #136e7c;
         }
+        input {
+            color: black !important;
+        }
+
 
         .options {
             display: flex;
@@ -54,6 +58,10 @@
         a {
             width: 200px;
         }
+
+        .container {
+            background-color: #333;
+        }
     </style>
 </head>
 <body>
@@ -63,7 +71,6 @@
             Your account has been successfully verified. You can now upload your profile image and start exploring our platform.
         </p>
         <div class="options">
-            <a href="/users/upload" class="button">Upload Profile Image</a>
             <a href="/users/login" class="button">Log in</a>
         </div>
         <p>

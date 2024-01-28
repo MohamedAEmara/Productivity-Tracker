@@ -71,7 +71,7 @@ exports.createAndSendVerificationEmail = (email) => {
             <h1>Welcome to Productivity Tracker!</h1>
             <p>Thank you for registering with us. We're excited to have you on board.</p>
             <p>Please click the button below to verify your email address:</p>
-            <a href="http://127.0.0.1:3000/users/new/<TOKEN>" class="button">Verify Email</a>
+            <a href="https://tracker-j3u9.onrender.com/users/new/<TOKEN>" class="button">Verify Email</a>
             <p>If you didn't register on Productivity Tracker, you can ignore this email.</p>
         </div>
     </body>
@@ -146,7 +146,7 @@ exports.createAndSendResetPassword = (email) => {
             <h1>Welcome to Productivity Tracker!</h1>
             
             <p>Please click the button below to reset your password address:</p>
-            <a href="http://127.0.0.1:3000/users/resetPassword/<TOKEN>" class="button">Reset Password</a>
+            <a href="https://tracker-j3u9.onrender.com/users/resetPassword/<TOKEN>" class="button">Reset Password</a>
             <p>If you didn't register on Productivity Tracker, you can ignore this email.</p>
         </div>
     </body>
