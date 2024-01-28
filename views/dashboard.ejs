@@ -354,21 +354,21 @@ button:hover{
   }
   
    .values{
-    font-size: 50px;
+    font-size: 20px;
   }
 
   .completed, .not, .time {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10%;
-    padding-right: min(200px, 5%);
-    padding-left: min(200px, 5%);
+    /* gap: 10%; */
+    /* padding-right: min(200px, 5%);
+    padding-left: min(200px, 5%); */
   }
 
   .seven-seg {
     font-family: 'Seven Segment', sans-serif;
-    font-size: 40px;
+    font-size: 25px;
     font-weight: 800;
   }
 
@@ -377,9 +377,12 @@ button:hover{
   }
 
   .task-manager {
-    background-color: #333333;
-    margin-left: 60px;
-    margin-right: 60px;
+    background-color: #333;
+    /* margin-left: 60px;
+    margin-right: 60px; */
+    margin-left: auto;
+    margin-right: auto;
+    max-width: min(500px, 70%) !important;
   }
 
   * {
@@ -429,16 +432,16 @@ button:hover{
         <section class="task-manager">
         <h1>Dashboard</h1>
             <div class="completed">
-                <h2>Completed Tasks:</h2>
-                <h3 class="values"><%= cnt_completed %></h3>
+                <h4>Completed Tasks:</h4>
+                <h4 class="values"><%= cnt_completed %></h4>
             </div>
             <div class="not">
-                <h2>In Progress Tasks:</h2>
-                <h3 class="values"><%= cnt_not %></h3>
+                <h4>In Progress Tasks:</h4>
+                <h4 class="values"><%= cnt_not %></h4>
             </div>
             <div class="time">
-                <h2>Productivity Time: </h2>
-                <h3 class="seven-seg"><%= hours %> : <%= mins %> </h3>
+                <h4>Productivity Time: </h4>
+                <h4 class="seven-seg"><%= hours %> : <%= mins %> </h4>
             </div>
         </section>
     </main>

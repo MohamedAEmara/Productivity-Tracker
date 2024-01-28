@@ -82,8 +82,8 @@ io.on('connection', (socket) => {
 
 app.get('/', displayMain);
 
-app.get('/haha', (req, res) => {
-  res.render('enter-your-mail');
+app.get('/error', (req, res) => {
+  res.render('error');
 });
 
 const port = process.env.PORT || 8080;
