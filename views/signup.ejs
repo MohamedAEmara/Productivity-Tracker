@@ -101,18 +101,18 @@
         <div class="username">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
-            <p id="usernameError" style="color: red; display: none;">Username can only contain letters, numbers, and underscore</p>
         </div>
         <div class="password">
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" minlength="8" required>
         </div>
         <div class="confirmPassword">
             <label for="confirmPassword">Confirm:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required>
-            <p id="passwordError" style="color: red; display: none;">Password must be at least 8 characters long</p>
+            <input type="password" id="confirmPassword" minlength="8" name="confirmPassword" required>
         </div>
         
+        <p id="usernameError" style="color: red !important; display: none;">Username can only contain letters, numbers, and underscore</p>
+        <!-- <p id="passwordError" style="color: red; display: none;">Password must be at least 8 characters long</p> -->
         <div class="buttons">
             <button type="submit">Register</button>
             <a href="/users/login" style=" margin-left: 10px; font-size: 17px; font-weight: 7;">login?</a>
@@ -128,6 +128,7 @@
             var usernameRegex = /^[a-zA-Z0-9_]+$/;
             if (!usernameRegex.test(username)) {
                 document.getElementById("usernameError").style.display = "block";
+                document.getElementById("usernameError").style.color = "red !important" ;
                 return false;
             } else {
                 document.getElementById("usernameError").style.display = "none";
