@@ -155,7 +155,7 @@ exports.editTask = async (req, res) => {
         
         const task = await Task.findByIdAndUpdate(req.params.taskId, { name: req.body.taskName, remainingTime: time, completed });
         console.log(task);
-        const tasks = await Task.find();
+        const tasks = await Task.find({ id: req.user });
         res.render('tasks', { tasks, hero: req.hero, page: 'All Tasks'});
     } catch (err) {
         console.log(err);

@@ -92,7 +92,7 @@
     </style>
 </head>
 <body>
-    <form action="/users/auth/signup" method="post">
+    <form action="/users/auth/signup" method="post" onsubmit="return validateForm()">
         <h1>Productivity Tracker</h1>
         <div class="email">
             <label for="email">Email:</label>
@@ -101,6 +101,7 @@
         <div class="username">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
+            <p id="usernameError" style="color: red; display: none;">Username can only contain letters, numbers, and underscore</p>
         </div>
         <div class="password">
             <label for="password">Password:</label>
@@ -109,6 +110,7 @@
         <div class="confirmPassword">
             <label for="confirmPassword">Confirm:</label>
             <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <p id="passwordError" style="color: red; display: none;">Password must be at least 8 characters long</p>
         </div>
         
         <div class="buttons">
@@ -116,5 +118,35 @@
             <a href="/users/login" style=" margin-left: 10px; font-size: 17px; font-weight: 7;">login?</a>
         </div>
     </form>
+
+    <script>
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+
+            var usernameRegex = /^[a-zA-Z0-9_]+$/;
+            if (!usernameRegex.test(username)) {
+                document.getElementById("usernameError").style.display = "block";
+                return false;
+            } else {
+                document.getElementById("usernameError").style.display = "none";
+            }
+
+            if (password.length < 8) {
+                document.getElementById("passwordError").style.display = "block";
+                return false;
+            } else {
+                document.getElementById("passwordError").style.display = "none";
+            }
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </body>
 </html>
