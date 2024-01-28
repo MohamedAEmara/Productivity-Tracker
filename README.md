@@ -6,6 +6,8 @@
 
  It features real-time updates of the remaining time for each task, synchronization between the frontend and backend using **socket.io**, user image uploading capabilities using **Cloudinary**, and email verification and password reset functionalities using **Google's APIs**.
 
+ [try it out](https://tracker-j3u9.onrender.com/)
+
 ## Features
 
 - **Timer Management**: Users can create multiple timers, each with its own duration and name.
@@ -66,6 +68,10 @@
 5. Upload profile images using the provided functionality.
 6. Reset your password in case you forget it.
 
+
+## Deploy
+
+- The server is deployed on **Render** on this link: [`https://tracker-j3u9.onrender.com/`](https://tracker-j3u9.onrender.com/)
 ## Contributing
 
 Contributions are welcome! Feel free to submit bug reports, feature requests, or pull requests to help improve the project.
