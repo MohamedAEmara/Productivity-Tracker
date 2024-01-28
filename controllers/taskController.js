@@ -268,15 +268,18 @@ exports.displayMain = async (req, res) => {
     try {
         const token = req.cookies.jwt;
         console.log(token);
+        if(!token) {
+            return res.render('login');
+        }
         const tmp = (jwt.decode(token, process.env.JWT_SECRET));
         console.log(tmp);
         if(tmp.exp <= Math.floor(Date.now() / 1000)) {
-            res.render('welcome');
+            return res.render('login');
         } else {
             req.user = tmp.id;
             const tasks = await Task.find({ user: req.user });
             const hero = await User.findById(req.user);
-            res.render('tasks', { hero, tasks, page: 'All Tasks' });
+            return res.render('tasks', { hero, tasks, page: 'All Tasks' });
         }
     } catch (err) {
         console.log(err);
