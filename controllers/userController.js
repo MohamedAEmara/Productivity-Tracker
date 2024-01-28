@@ -262,3 +262,28 @@ exports.displayDashboard = async (req, res) => {
 
 
 }
+
+
+exports.updateUser = async (req, res) => {
+    try {
+        const id = req.user;
+        const username = req.body.username;
+        if(!username) {
+            return res.status(400).json({
+                status: 'fail', 
+                message: 'No username attatched'
+            });
+        }
+
+        await User.findByIdAndUpdate(id, { username });
+        const user = await User.findById(id);
+        const tasks = await Task.find({ user: id });
+        res.render('tasks', { hero: user, tasks, page: 'All Tasks' });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: 'fail', 
+            message: 'Something went wrong. Please try again later.'
+        });
+    }
+}

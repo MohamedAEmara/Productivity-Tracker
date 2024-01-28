@@ -457,25 +457,27 @@ button:hover{
             
             <div class="separator"></div>
             
-            <div class="changes">
-              <div class="change-username">
-                <label for="username">Username</label>
-                <input type="text" class="username" value="<%= hero.username %>">
-            </div>
-
-            <div class="change-email">
-              <label for="email">Email</label>
-              <input type="text" value="<%= hero.email %>" readonly>
-            </div>
-            
-            
             <div class="change-password">
                 Password:
                 <a href="/users/changePassword" style="color: white; font-weight: 600;"> Change Password</a> 
             </div>
+            <form class="changes" id="changes" action="/users" method="POST">
+              <input type="hidden" name="_method" value="PATCH">
+  
+              <div class="change-email">
+                <label for="email">Email</label>
+                <input type="text" value="<%= hero.email %>" readonly>
+              </div>
+              
+              <div class="change-username">
+                <label for="username">Username</label>
+                  <input id="username" type="text" class="username" name="username" value="<%= hero.username %>">
+              </div>
+            
 
-            <button class="save">Save</button>
-            </div>
+            <div id="usernameError" style="display: none; color: red;">Username can only contain english letters, numbers, or underscore.</div>
+            <button class="save" onclick="saveUsername(event)">Save</button>
+            </form>
         </section>
     </main>
   
@@ -507,6 +509,24 @@ button:hover{
   
         // Submit the form
         form.submit();
+      }
+
+      function saveUsername() {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+
+        var usernameRegex = /^[a-zA-Z0-9_]+$/;
+        var usernameError = document.getElementById("usernameError");
+        if (!usernameRegex.test(username)) {
+          console.log(username);
+          console.log("---------------------");
+            usernameError.style.display = "block";
+        } else {
+          console.log(username);
+          console.log("---------------------");
+          usernameError.style.display = "none";
+          document.getElementById("changes").submit();
+        }
       }
       </script>
     
