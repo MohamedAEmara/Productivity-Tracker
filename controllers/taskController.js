@@ -6,15 +6,50 @@ const jwt = require('jsonwebtoken');
 exports.showAllTasks = async (req, res) => {
     try {
         console.log('show alll');
-        // const tasks = await Task.find({ 
-        //     $and: [
-        //         { user: req.user },
-        //         { completed: { $ne: true} }
-        //     ]
-        // });
-        const tasks = await Task.find({ user: req.user });
-        // console.log(tasks);
-        res.render('tasks', { tasks, hero: req.hero, page: 'All Tasks' });
+
+        let tasks = await Task.find({ user: req.user });
+        
+        let taskObjs = [];
+        tasks.forEach(task => {
+            let taskObject = task.toObject();
+            
+            let time = taskObject.time;
+            taskObject.hours = Math.floor(time / 3600);
+            time -= taskObject.hours * 3600;
+            taskObject.mins = Math.floor(time / 60);
+            time -= taskObject.mins * 60;
+            taskObject.secs = time;
+            
+            let remaining = taskObject.remainingTime;
+            taskObject.rem_hours = Math.floor(remaining / 3600);
+            remaining -= taskObject.rem_hours * 3600;
+            taskObject.rem_mins = Math.floor(remaining / 60);
+            remaining -= taskObject.rem_mins * 60;
+            taskObject.rem_secs = remaining;
+            
+            if(taskObject.hours < 10) {
+                taskObject.hours = `0${taskObject.hours}`;
+            }
+            if(taskObject.mins < 10) {
+                taskObject.mins = `0${taskObject.mins}`;
+            }
+            if(taskObject.secs < 10) {
+                taskObject.secs = `0${taskObject.secs}`;
+            }
+            if(taskObject.rem_hours < 10) {
+                taskObject.rem_hours = `0${taskObject.rem_hours}`;
+            }
+            if(taskObject.rem_mins < 10) {
+                taskObject.rem_mins = `0${taskObject.rem_mins}`;
+            }
+            if(taskObject.rem_secs < 10) {
+                taskObject.rem_secs = `0${taskObject.rem_secs}`;
+            }
+            
+            taskObjs.push(taskObject);
+        })
+
+        res.render('tasks', { tasks: taskObjs, hero: req.hero, page: 'All Tasks' });
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -35,7 +70,48 @@ exports.showCompletedTasks = async (req, res) => {
                 { completed: true }
             ]
         });
-        res.render('tasks', { tasks, hero: req.hero, page: 'Completed Tasks' });
+
+        let taskObjs = [];
+        tasks.forEach(task => {
+            let taskObject = task.toObject();
+            
+            let time = taskObject.time;
+            taskObject.hours = Math.floor(time / 3600);
+            time -= taskObject.hours * 3600;
+            taskObject.mins = Math.floor(time / 60);
+            time -= taskObject.mins * 60;
+            taskObject.secs = time;
+            
+            let remaining = taskObject.remainingTime;
+            taskObject.rem_hours = Math.floor(remaining / 3600);
+            remaining -= taskObject.rem_hours * 3600;
+            taskObject.rem_mins = Math.floor(remaining / 60);
+            remaining -= taskObject.rem_mins * 60;
+            taskObject.rem_secs = remaining;
+
+            if(taskObject.hours < 10) {
+                taskObject.hours = `0${taskObject.hours}`;
+            }
+            if(taskObject.mins < 10) {
+                taskObject.mins = `0${taskObject.mins}`;
+            }
+            if(taskObject.secs < 10) {
+                taskObject.secs = `0${taskObject.secs}`;
+            }
+            if(taskObject.rem_hours < 10) {
+                taskObject.rem_hours = `0${taskObject.rem_hours}`;
+            }
+            if(taskObject.rem_mins < 10) {
+                taskObject.rem_mins = `0${taskObject.rem_mins}`;
+            }
+            if(taskObject.rem_secs < 10) {
+                taskObject.rem_secs = `0${taskObject.rem_secs}`;
+            }
+            
+            taskObjs.push(taskObject);
+        })
+
+        res.render('tasks', { tasks: taskObjs, hero: req.hero, page: 'Completed Tasks' });
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -56,7 +132,48 @@ exports.showNotCompletedTasks = async (req, res) => {
                 { completed: { $ne: true} }
             ]
         });
-        res.render('tasks', { tasks, hero: req.hero, page: 'Not-Completed Tasks' });
+
+        let taskObjs = [];
+        tasks.forEach(task => {
+            let taskObject = task.toObject();
+            
+            let time = taskObject.time;
+            taskObject.hours = Math.floor(time / 3600);
+            time -= taskObject.hours * 3600;
+            taskObject.mins = Math.floor(time / 60);
+            time -= taskObject.mins * 60;
+            taskObject.secs = time;
+            
+            let remaining = taskObject.remainingTime;
+            taskObject.rem_hours = Math.floor(remaining / 3600);
+            remaining -= taskObject.rem_hours * 3600;
+            taskObject.rem_mins = Math.floor(remaining / 60);
+            remaining -= taskObject.rem_mins * 60;
+            taskObject.rem_secs = remaining;
+
+            if(taskObject.hours < 10) {
+                taskObject.hours = `0${taskObject.hours}`;
+            }
+            if(taskObject.mins < 10) {
+                taskObject.mins = `0${taskObject.mins}`;
+            }
+            if(taskObject.secs < 10) {
+                taskObject.secs = `0${taskObject.secs}`;
+            }
+            if(taskObject.rem_hours < 10) {
+                taskObject.rem_hours = `0${taskObject.rem_hours}`;
+            }
+            if(taskObject.rem_mins < 10) {
+                taskObject.rem_mins = `0${taskObject.rem_mins}`;
+            }
+            if(taskObject.rem_secs < 10) {
+                taskObject.rem_secs = `0${taskObject.rem_secs}`;
+            }
+            
+            taskObjs.push(taskObject);
+        })
+
+        res.render('tasks', { tasks:taskObjs, hero: req.hero, page: 'Not-Completed Tasks' });
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -103,7 +220,48 @@ exports.createTask = async (req, res) => {
         
         console.log('Task Created Successfully!');  
         const tasks = await Task.find({ user: req.user });
-        res.render('tasks', {tasks, hero: req.hero, page: 'All Tasks'})
+
+        let taskObjs = [];
+        tasks.forEach(task => {
+            let taskObject = task.toObject();
+            
+            let time = taskObject.time;
+            taskObject.hours = Math.floor(time / 3600);
+            time -= taskObject.hours * 3600;
+            taskObject.mins = Math.floor(time / 60);
+            time -= taskObject.mins * 60;
+            taskObject.secs = time;
+            
+            let remaining = taskObject.remainingTime;
+            taskObject.rem_hours = Math.floor(remaining / 3600);
+            remaining -= taskObject.rem_hours * 3600;
+            taskObject.rem_mins = Math.floor(remaining / 60);
+            remaining -= taskObject.rem_mins * 60;
+            taskObject.rem_secs = remaining;
+            
+            if(taskObject.hours < 10) {
+                taskObject.hours = `0${taskObject.hours}`;
+            }
+            if(taskObject.mins < 10) {
+                taskObject.mins = `0${taskObject.mins}`;
+            }
+            if(taskObject.secs < 10) {
+                taskObject.secs = `0${taskObject.secs}`;
+            }
+            if(taskObject.rem_hours < 10) {
+                taskObject.rem_hours = `0${taskObject.rem_hours}`;
+            }
+            if(taskObject.rem_mins < 10) {
+                taskObject.rem_mins = `0${taskObject.rem_mins}`;
+            }
+            if(taskObject.rem_secs < 10) {
+                taskObject.rem_secs = `0${taskObject.rem_secs}`;
+            }
+
+            taskObjs.push(taskObject);
+        })
+
+        res.render('tasks', {tasks: taskObjs, hero: req.hero, page: 'All Tasks'})
     } catch (err) {
         console.log(err);
         res.status(400).json({
@@ -159,19 +317,6 @@ exports.editTask = async (req, res) => {
             return res.render('edit', { task, hours, mins, secs, rem_hours, rem_mins, rem_secs, hero, error: true });
         }
 
-        // const oldTask = await Task.findById(req.params.taskId);
-        // const oldTime = oldTask.time;
-        
-        // let oldRemaining = oldTask.remainingTime;
-
-        // const diff = time - oldTime;
-        // oldRemaining += diff; 
-
-        // if(time < oldRemaining) {
-        //     oldRemaining = time;
-        // }
-
-
         let completed = false;
         if(remaining === 0) {
             completed = true;
@@ -182,7 +327,48 @@ exports.editTask = async (req, res) => {
         const tasks = await Task.find({ user: req.user });
         console.log(tasks);
         console.log(req.user);
-        res.render('tasks', { tasks, hero: req.hero, page: 'All Tasks'});
+
+        let taskObjs = [];
+        tasks.forEach(task => {
+            let taskObject = task.toObject();
+            
+            let time = taskObject.time;
+            taskObject.hours = Math.floor(time / 3600);
+            time -= taskObject.hours * 3600;
+            taskObject.mins = Math.floor(time / 60);
+            time -= taskObject.mins * 60;
+            taskObject.secs = time;
+            
+            let remaining = taskObject.remainingTime;
+            taskObject.rem_hours = Math.floor(remaining / 3600);
+            remaining -= taskObject.rem_hours * 3600;
+            taskObject.rem_mins = Math.floor(remaining / 60);
+            remaining -= taskObject.rem_mins * 60;
+            taskObject.rem_secs = remaining;
+
+            if(taskObject.hours < 10) {
+                taskObject.hours = `0${taskObject.hours}`;
+            }
+            if(taskObject.mins < 10) {
+                taskObject.mins = `0${taskObject.mins}`;
+            }
+            if(taskObject.secs < 10) {
+                taskObject.secs = `0${taskObject.secs}`;
+            }
+            if(taskObject.rem_hours < 10) {
+                taskObject.rem_hours = `0${taskObject.rem_hours}`;
+            }
+            if(taskObject.rem_mins < 10) {
+                taskObject.rem_mins = `0${taskObject.rem_mins}`;
+            }
+            if(taskObject.rem_secs < 10) {
+                taskObject.rem_secs = `0${taskObject.rem_secs}`;
+            }
+
+            taskObjs.push(taskObject);
+        })
+
+        res.render('tasks', { tasks: taskObjs, hero: req.hero, page: 'All Tasks'});
     } catch (err) {
         console.log(err);
         res.status(400).json({
@@ -297,19 +483,63 @@ exports.showProfile = async (req, res) => {
 exports.displayMain = async (req, res) => {
     try {
         const token = req.cookies.jwt;
-        console.log(token);
+        // console.log(token);
         if(!token) {
             return res.render('login');
         }
         const tmp = (jwt.decode(token, process.env.JWT_SECRET));
-        console.log(tmp);
+        // console.log(tmp);
         if(tmp.exp <= Math.floor(Date.now() / 1000)) {
             return res.render('login');
         } else {
             req.user = tmp.id;
             const tasks = await Task.find({ user: req.user });
+            
+
+            console.log(tasks);
             const hero = await User.findById(req.user);
-            return res.render('tasks', { hero, tasks, page: 'All Tasks' });
+
+            let taskObjs = [];
+            tasks.forEach(task => {
+                let taskObject = task.toObject();
+                
+                let time = taskObject.time;
+                taskObject.hours = Math.floor(time / 3600);
+                time -= taskObject.hours * 3600;
+                taskObject.mins = Math.floor(time / 60);
+                time -= taskObject.mins * 60;
+                taskObject.secs = time;
+                
+                let remaining = taskObject.remainingTime;
+                taskObject.rem_hours = Math.floor(remaining / 3600);
+                remaining -= taskObject.rem_hours * 3600;
+                taskObject.rem_mins = Math.floor(remaining / 60);
+                remaining -= taskObject.rem_mins * 60;
+                taskObject.rem_secs = remaining;
+                
+                if(taskObject.hours < 10) {
+                    taskObject.hours = `0${taskObject.hours}`;
+                }
+                if(taskObject.mins < 10) {
+                    taskObject.mins = `0${taskObject.mins}`;
+                }
+                if(taskObject.secs < 10) {
+                    taskObject.secs = `0${taskObject.secs}`;
+                }
+                if(taskObject.rem_hours < 10) {
+                    taskObject.rem_hours = `0${taskObject.rem_hours}`;
+                }
+                if(taskObject.rem_mins < 10) {
+                    taskObject.rem_mins = `0${taskObject.rem_mins}`;
+                }
+                if(taskObject.rem_secs < 10) {
+                    taskObject.rem_secs = `0${taskObject.rem_secs}`;
+                }
+                console.log(taskObject);
+                taskObjs.push(taskObject);
+            })
+
+            return res.render('tasks', { tasks: taskObjs, hero, page: 'All Tasks' });
         }
     } catch (err) {
         console.log(err);

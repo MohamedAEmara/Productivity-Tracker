@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productivity Tracker</title>
     <style>
+    @import url('https://fonts.cdnfonts.com/css/seven-segment');
+    @import url('https://db.onlinewebfonts.com/c/61b4eaee5625d47bb7215f205e44f580?family=F7-Segment');
+
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;
@@ -373,7 +376,16 @@ button:hover{
             color: black !important;
         }
 
+  .timee, .remm {
+    display: flex;
+    justify-content: space-between;
+  }
 
+  .seven-seg {
+    /* font-family: 'Seven Segment'; */
+    font-family: 'F7-Segment';
+    font-weight: 600;
+  }
     </style>    
     <script>
           document.addEventListener('DOMContentLoaded', function () {
@@ -421,8 +433,14 @@ button:hover{
           <% tasks.forEach(task => { %>
             <div class="task-card <%= task.completed ? 'done' : 'not-done' %>">
               <h3><%= task.name %></h3>
-              <p>Task Time: <%= task.time %></p>
-              <p>Time Remaining: <%= task.remainingTime %></p>
+              <div class="timee">
+                <div>Task Time:</div>
+                <div class="seven-seg"><%= task.hours %> : <%= task.mins %> : <%= task.secs %> </div>
+              </div>
+              <div class="remm">
+                <div>Remaining:</div>
+                <div class="seven-seg"> <%= task.rem_hours %> : <%= task.rem_mins %> : <%= task.rem_secs %></div>
+              </div>
               <p>Status: <%= task.completed ? 'Done' : 'In Progress' %></p>
               
               <% if (!task.completed) { %>
