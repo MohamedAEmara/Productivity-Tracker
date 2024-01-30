@@ -22,11 +22,6 @@ taskRouter
     .delete(isAuthenticated, deleteTask, showAllTasks);
 
 
-taskRouter
-
-
-
-
 
 taskRouter.get('/all',isAuthenticated, showAllTasks);
 taskRouter.get('/completed',isAuthenticated, showCompletedTasks);

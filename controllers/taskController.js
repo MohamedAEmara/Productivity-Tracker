@@ -139,21 +139,45 @@ exports.editTask = async (req, res) => {
     try {
         const name = req.body.taskName;
         const hours = req.body.hours;
-        const minutes = req.body.minutes;
-        const seconds = req.body.seconds;
+        const mins = req.body.minutes;
+        const secs = req.body.seconds;
         
-        console.log(req.params.taskId);
-        console.log(req.body);
+        const rem_hours = req.body.rem_hours;
+        const rem_mins = req.body.rem_minutes;
+        const rem_secs = req.body.rem_seconds;
 
-        const time = seconds * 1 + minutes * 60 + hours * 3600;
+        console.log(rem_hours);
+        console.log(rem_mins);
+        console.log(rem_secs);
+        
+        const time = secs * 1 + mins * 60 + hours * 3600;
+        const remaining = rem_secs * 1 + rem_mins * 60 + rem_hours * 3600;
+
+        if(remaining > time) {
+            const task = await Task.findById(req.params.taskId);
+            const hero = await User.findById(req.user);
+            return res.render('edit', { task, hours, mins, secs, rem_hours, rem_mins, rem_secs, hero, error: true });
+        }
+
+        // const oldTask = await Task.findById(req.params.taskId);
+        // const oldTime = oldTask.time;
+        
+        // let oldRemaining = oldTask.remainingTime;
+
+        // const diff = time - oldTime;
+        // oldRemaining += diff; 
+
+        // if(time < oldRemaining) {
+        //     oldRemaining = time;
+        // }
+
+
         let completed = false;
-        if(time === 0) {
+        if(remaining === 0) {
             completed = true;
         }
-        console.log(req.params.taskId);
-        console.log(typeof req.params.taskId);
-        
-        const task = await Task.findByIdAndUpdate(req.params.taskId, { name: req.body.taskName, remainingTime: time, completed });
+
+        const task = await Task.findByIdAndUpdate(req.params.taskId, { name: req.body.taskName, remainingTime: remaining, time, completed });
         console.log(task);
         const tasks = await Task.find({ user: req.user });
         console.log(tasks);
@@ -176,16 +200,20 @@ exports.updateTask = async (req, res) => {
         // res.send(task);
         const task = await Task.findById(req.params.taskId);
         console.log(task);
-        const hours = Math.floor(task.remainingTime / 3600);
-        const mins = Math.floor((task.remainingTime - hours * 3600) / 60);
-        const secs = Math.floor(task.remainingTime - hours * 3600 - 60 * mins);
-        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxx');
+        const rem_hours = Math.floor(task.remainingTime / 3600);
+        const rem_mins = Math.floor((task.remainingTime - rem_hours * 3600) / 60);
+        const rem_secs = Math.floor(task.remainingTime - rem_hours * 3600 - 60 * rem_mins);
+
+        const hours = Math.floor(task.time / 3600);
+        const mins = Math.floor((task.time - hours * 3600) / 60);
+        const secs = Math.floor(task.time - hours * 3600 - mins * 60);
+
         const id = req.user;
         const user = await User.findById(id);
         console.log(user);
 
         console.log(hours, mins, secs);
-        res.render('edit', { task: task, hours, mins, secs, hero: user });
+        res.render('edit', { task: task, hours, mins, secs, rem_hours, rem_mins, rem_secs, hero: user, error: false });
     } catch (err) {
         console.log(err);
         res.status(400).json({

@@ -357,7 +357,7 @@ input {
 }
 
 input[type="number"] {
-  width: 22px;
+  width: 30px;
   text-align: center;
 }
 
@@ -411,6 +411,9 @@ body {
     background-color: rgb(136, 135, 135);
   }
 
+  p {
+    margin: 5px 0px;
+  }
 
     </style>    
     <script>
@@ -467,23 +470,46 @@ body {
                               <input type="text" id="taskName" name="taskName" value = "<%= task.name %>" required>
                           </div>
                           
-                          <div class="time">
-                            <div class="input-group">
-                              <label for="hours">Hours:</label>
-                              <input type="number" id="hours" name="hours" min="0" value="<%= hours %>" required>
-                            </div>
-                            <div class="input-group">
-                              <label for="minutes">Mins:</label>
-                              <input type="number" id="minutes" name="minutes" min="0" max="59" value = "<%= mins %>" required>
-                            </div>
-                            <div class="input-group">
-                              <label for="seconds">Secs:</label>
-                              <input type="number" id="seconds" name="seconds" min="0" max="59" value="<%= secs %>" required>
+                          <div class="all">
+                            <p>Time:</p>
+                            <div class="time">
+                              <div class="input-group">
+                                <label for="hours">Hours:</label>
+                                <input type="number" id="hours" name="hours" min="0" value="<%= hours %>" required>
+                              </div>
+                              <div class="input-group">
+                                <label for="minutes">Mins:</label>
+                                <input type="number" id="minutes" name="minutes" min="0" max="59" value = "<%= mins %>" required>
+                              </div>
+                              <div class="input-group">
+                                <label for="seconds">Secs:</label>
+                                <input type="number" id="seconds" name="seconds" min="0" max="59" value="<%= secs %>" required>
+                              </div>
                             </div>
                           </div>
-                      
+
+
+                          <div class="rem">
+                            <p>Remaining Time:</p>
+                            <div class="time">
+                              <div class="input-group">
+                                <label for="hours">Hours:</label>
+                                <input type="number" id="hours" name="rem_hours" min="0" value="<%= rem_hours %>" required>
+                              </div>
+                              <div class="input-group">
+                                <label for="minutes">Mins:</label>
+                                <input type="number" id="minutes" name="rem_minutes" min="0" max="59" value = "<%= rem_mins %>" required>
+                              </div>
+                              <div class="input-group">
+                                <label for="seconds">Secs:</label>
+                                <input type="number" id="seconds" name="rem_seconds" min="0" max="59" value="<%= rem_secs %>" required>
+                              </div>
+                            </div>
+                          </div>
+                          <% if (error) { %>
+                            <div  style="color:red !important; display: inline; text-align: center;"> Remaining time value must be less than or equal Time </div>
+                          <% } %>
                           <button type="submit" class="button" id="edit-btn">Edit</button>
-              
                         </form>
                         
                     </div>
