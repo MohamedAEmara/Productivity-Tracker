@@ -41,10 +41,7 @@ exports.loginUser = async (req, res) => {
         console.log(email);
         console.log(password);
         if(!email || !password) {
-            res.status(400).json({
-                error: 'fail',
-                message: 'please enter your email & password.',
-            })
+            return res.render('error', { error_msg: 'Please enter your email & password' });
         }
 
         let user;
@@ -56,10 +53,7 @@ exports.loginUser = async (req, res) => {
             user = await User.findOne({ username: email });
         }
         if(!user) {
-            return res.status(401).json({
-                error: 'fail',
-                message: 'email or password is not correct.',
-            });
+            return res.render('error', { error_msg: 'email or password is not correct.' });
         }
 
         // Validate Password
@@ -69,19 +63,55 @@ exports.loginUser = async (req, res) => {
             if(user.isVerified) {
                 createAndSendToken(user, 200, res);
                 const tasks = await Task.find({ user: user._id });
-                // res.status(200).send("You logged in successfully :)");
-                res.render('tasks', { hero: user, page: 'All Tasks', tasks});
+                
+                let taskObjs = [];
+            tasks.forEach(task => {
+                let taskObject = task.toObject();
+                
+                let time = taskObject.time;
+                taskObject.hours = Math.floor(time / 3600);
+                time -= taskObject.hours * 3600;
+                taskObject.mins = Math.floor(time / 60);
+                time -= taskObject.mins * 60;
+                taskObject.secs = time;
+                
+                let remaining = taskObject.remainingTime;
+                taskObject.rem_hours = Math.floor(remaining / 3600);
+                remaining -= taskObject.rem_hours * 3600;
+                taskObject.rem_mins = Math.floor(remaining / 60);
+                remaining -= taskObject.rem_mins * 60;
+                taskObject.rem_secs = remaining;
+
+                if(taskObject.hours < 10) {
+                    taskObject.hours = `0${taskObject.hours}`;
+                }
+                if(taskObject.mins < 10) {
+                    taskObject.mins = `0${taskObject.mins}`;
+                }
+                if(taskObject.secs < 10) {
+                    taskObject.secs = `0${taskObject.secs}`;
+                }
+                if(taskObject.rem_hours < 10) {
+                    taskObject.rem_hours = `0${taskObject.rem_hours}`;
+                }
+                if(taskObject.rem_mins < 10) {
+                    taskObject.rem_mins = `0${taskObject.rem_mins}`;
+                }
+                if(taskObject.rem_secs < 10) {
+                    taskObject.rem_secs = `0${taskObject.rem_secs}`;
+                }
+                
+                taskObjs.push(taskObject);
+            })  
+            
+            res.render('tasks', { tasks: taskObjs, hero: user, page: 'All Tasks' });
+
             } else {
-                res.status(401).json({
-                    error: 'fail',
-                    message: 'verify your account first to login.'
-                });
+
+                return res.render('error', { error_msg: 'Verify your email first to login.' });
             }
         } else {
-            res.status(401).json({
-                error: 'fail',
-                message: 'email or password is not correct.'
-            });
+            return res.render('error', { error_msg: 'email or password is not correct.' });
         }
 
     } catch (err) {
@@ -105,14 +135,12 @@ exports.uploadImage = async (req, res) => {
             // res.send('File uploaded successfully!');
             res.render('profile', { hero: user });
         } else {
-            res.status(400).send('No file selected.');
+            return res.render('error', { error_msg: 'No file selected' });
         }
     } catch (err) {
         console.log(err);
-        res.status(500).json({
-            status: 'fail', 
-            message: 'Something went wrong. Please try again later!'
-        });
+        return res.render('error', { error_msg: 'Something went wrong. Please try again later' });
+
     }
 };
 
@@ -144,10 +172,7 @@ exports.updatePassword = async (req, res) => {
         const correctPassword = await bcrypt.compare(oldPassword, currPassword);
         
         if(!correctPassword) {
-            return res.status(400).send({
-                status: 'fail',
-                message: 'You current password is not correct!!'
-            });
+            return res.render('error', { error_msg: 'Password is not correct' });
         }
 
         const hashedPassword = await bcrypt.hash(newPassword, parseInt(process.env.HASH_LENGTH));
@@ -159,10 +184,8 @@ exports.updatePassword = async (req, res) => {
 
     } catch (err) {
         console.log(err);
-        res.status(500).json({
-            status: 'fail', 
-            message: 'Something went wrong. Please try again later.'
-        });
+        return res.render('error', { error_msg: 'Something went wrong. Please try again later.' });
+
     }
 }
 
@@ -181,10 +204,8 @@ exports.updatePassword2 = async (req, res) => {
         res.render('login');
     } catch (err) {
         console.log(err);
-        res.status(400).json({
-            status: 'fail',
-            message: 'Link expired. Please Re-Enter your mail to get another one!'
-        });
+        return res.render('error', { error_msg: 'Link expired. Please Re-Enter your mail to get another one!' });
+
     }
 }
 
@@ -207,10 +228,8 @@ exports.forgotPassword = async (req, res) => {
         res.render('new-pass');
     } catch (err) {
         console.log(err);
-        res.status(500).json({
-            status: 'fail',
-            message: 'Something went wront. Please try again!!'
-        });
+        return res.render('error', { error_msg: 'Something went wrong. Please try again later.' });
+
     }
 }
 
@@ -254,10 +273,8 @@ exports.displayDashboard = async (req, res) => {
 
     } catch (err) {
         console.log(err);
-        res.status(500).json({
-            status: 'fail',
-            message: 'Something went wrong. Please try again later.'
-        });
+        return res.render('error', { error_msg: 'Something went wrong. Please try again later.' });
+
     }
 
 
@@ -269,10 +286,7 @@ exports.updateUser = async (req, res) => {
         const id = req.user;
         const username = req.body.username;
         if(!username) {
-            return res.status(400).json({
-                status: 'fail', 
-                message: 'No username attatched'
-            });
+            return res.render('error', { error_msg: 'No username attached.' });
         }
 
         await User.findByIdAndUpdate(id, { username });
@@ -281,9 +295,7 @@ exports.updateUser = async (req, res) => {
         res.render('tasks', { hero: user, tasks, page: 'All Tasks' });
     } catch (err) {
         console.log(err);
-        res.status(400).json({
-            status: 'fail', 
-            message: 'Something went wrong. Please try again later.'
-        });
+        return res.render('error', { error_msg: 'Something went wrong. Please try again later.' });
+
     }
 }
