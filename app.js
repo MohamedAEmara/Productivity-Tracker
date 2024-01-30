@@ -71,6 +71,11 @@ io.on('connection', (socket) => {
     // await User.findOneAndUpdate({ _id: strId }, { remainingTime: this.remainingTime-1});
     await Task.findByIdAndUpdate(id.id, { $inc: { remainingTime: -1 }});
   })
+
+  socket.on('finish', async(id) => {
+    const strId = id.toString();
+    await Task.findByIdAndUpdate(id.id, { remainingTime: 0, completed: true });
+  })
   // Listen for disconnect event
   socket.on('disconnect', () => {
     console.log(`User disconnected: ${socket.id}`);

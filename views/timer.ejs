@@ -811,7 +811,7 @@ return `${hours}:${mins}:${secs}`;
                 <div class="circular-progress">
                   <span class="progress-value"></span>
                 </div>
-              <span class="text">Task One</span>
+              <span class="text"><%= task.name %></span>
             </div>
             <div class="buttons">
               <button id="start-timer">Start</button>
@@ -923,11 +923,16 @@ return `${hours}:${mins}:${secs}`;
                 progressStartValue ++;
                 remaining = originalValue - progressStartValue;
       
-                if(remaining < -1) {
-                    clearInterval(progress);
-                }
+                if(remaining <= -1) {
+                  startTimer.disabled = true;
+                  stopTimer.disabled = true;
+                  running = 0;
+                  socket.emit('finish', { id: "<%= task._id %>"});
+                  clearInterval(intervalId);
+                } else {
                   console.log(progressStartValue);
-                socket.emit('second', { id: "<%= task._id %>"});
+                  socket.emit('second', { id: "<%= task._id %>"});
+                }
 
               }
           }, speed)
@@ -946,8 +951,8 @@ return `${hours}:${mins}:${secs}`;
               progressStartValue ++;
               remaining = originalValue - progressStartValue;
     
-              if(remaining < -1) {
-                  clearInterval(progress);
+              if(remaining <= -1) {
+                  clearInterval(intervalId);
               }
             }
           }, 1);
