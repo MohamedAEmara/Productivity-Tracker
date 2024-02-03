@@ -20,7 +20,6 @@ const isUserName = function(username) {
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        unique: [true, 'this username is taken'],
         required: [true, 'userName cannot be empty.'],
         validate: {
             validator: function(val) {
@@ -33,9 +32,7 @@ const userSchema = new mongoose.Schema({
             },
             // validator: isUserName(val),
             message: 'username can include only english letters, underscore, and numbers.'
-        },
-        minlength: [5, 'username cannot be less than 5 characters'],
-        maxlength: [30, 'username cannot be more than 30 characters'],
+        }
     },
     email: {
         type: String,
@@ -65,11 +62,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    tasks: {
-        // ids for tasks...
-        // NOT IMPLEMENTED YET
-    },
-    profilePic: String
+    profilePic: {
+        type: String,
+        default: process.env.DEFAULT_IMG
+    }
 });
 
 
